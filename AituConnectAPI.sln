@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AituConnectAPI", "AituConnectAPI\AituConnectAPI.csproj", "{EB98188F-D2E9-4909-9E9E-EC3BB057DC12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AituConnectAPI.AppHost", "AituConnectAPI.AppHost\AituConnectAPI.AppHost.csproj", "{42175935-6BE8-4825-AF30-D459C39F4340}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AituConnectAPI.ServiceDefaults", "AituConnectAPI.ServiceDefaults\AituConnectAPI.ServiceDefaults.csproj", "{649A4B4F-66E6-49E2-A2B8-629D3718C45C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB98188F-D2E9-4909-9E9E-EC3BB057DC12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB98188F-D2E9-4909-9E9E-EC3BB057DC12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB98188F-D2E9-4909-9E9E-EC3BB057DC12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB98188F-D2E9-4909-9E9E-EC3BB057DC12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42175935-6BE8-4825-AF30-D459C39F4340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42175935-6BE8-4825-AF30-D459C39F4340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42175935-6BE8-4825-AF30-D459C39F4340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42175935-6BE8-4825-AF30-D459C39F4340}.Release|Any CPU.Build.0 = Release|Any CPU
+		{649A4B4F-66E6-49E2-A2B8-629D3718C45C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{649A4B4F-66E6-49E2-A2B8-629D3718C45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{649A4B4F-66E6-49E2-A2B8-629D3718C45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{649A4B4F-66E6-49E2-A2B8-629D3718C45C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
