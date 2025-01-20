@@ -2,11 +2,8 @@
 
 namespace AituConnectAPI.Repositories.Abstractions
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
-        public Task<User> GetByIdAsync(string id);
         public Task<User> GetByChatIdAsync(string chatId);
-        public Task AddUserAsync(User user);
-
     }
 }

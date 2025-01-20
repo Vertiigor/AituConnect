@@ -2,11 +2,9 @@
 
 namespace AituConnectAPI.Services.Abstractions
 {
-    public interface IUserService
+    public interface IUserService : IService<User>
     {
-        public Task<User> GetByIdAsync(string id);
         public Task<User> GetByChatIdAsync(string chatId);
-        public Task AddUserAsync(User user);
         public Task<bool> DoesUserExist(User user);
     }
 }

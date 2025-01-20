@@ -1,4 +1,3 @@
-
 using AituConnectAPI.Bot;
 using AituConnectAPI.Commands;
 using AituConnectAPI.Data;
@@ -35,7 +34,9 @@ public class Program
         // Add services to the container.
         builder.Services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(botApiToken));
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IPostService, PostService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IPostRepository, PostRepository>();
         builder.Services.AddScoped<ICommand, StartCommand>();
         builder.Services.AddScoped<BotMessageHandler>();
         builder.Services.AddScoped<CommandDispatcher>();

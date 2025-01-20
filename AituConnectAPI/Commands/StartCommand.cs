@@ -26,16 +26,18 @@ namespace AituConnectAPI.Commands
             var username = update.Message.Chat.Username ?? "Unknown";
 
             var user = await _userService.GetByChatIdAsync(chatId);
-
+            
             var isAdded = await _userService.DoesUserExist(user);
 
             if (isAdded == false)
             {
-                await _userService.AddUserAsync(new Models.User
+                await _userService.AddAsync(new Models.User
                 {
                     ChatId = chatId,
                     UserName = username,
-                    NormalizedUserName = username.ToUpper()
+                    NormalizedUserName = username.ToUpper(),
+                    Role = Roles.USER,
+                    JoinedDate = DateTime.UtcNow
                 });
                 await _botClient.SendMessage(chatId, "Welcome! You have been registered.");
             }
