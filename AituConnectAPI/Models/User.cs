@@ -9,6 +9,12 @@ namespace AituConnectAPI.Models
         public string ChatId { get; set; }
 
         [Required]
+        public string University { get; set; }
+
+        [Required]
+        public string Faculty { get; set; }
+
+        [Required]
         public DateTime JoinedDate { get; set; }
 
         public Roles Role { get; set; }

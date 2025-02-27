@@ -2,6 +2,8 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using AituConnectAPI.Models;
+using AituConnectAPI.Pipelines.Registration;
+using AituConnectAPI.Models.Abstractions;
 
 namespace AituConnectAPI.Commands
 {
@@ -9,11 +11,15 @@ namespace AituConnectAPI.Commands
     {
         private readonly ITelegramBotClient _botClient;
         private readonly IUserService _userService;
+        private readonly IPipelineContextService _pipelineContextService;
+        private readonly RegistrationPipeline _registrationPipeline;
 
-        public StartCommand(ITelegramBotClient botClient, IUserService userService)
+        public StartCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, RegistrationPipeline registrationPipeline)
         {
             _botClient = botClient;
+            _pipelineContextService = pipelineContextService;
             _userService = userService;
+            _registrationPipeline = registrationPipeline;
         }
 
         public bool CanHandle(string command) => command.Equals("/start", StringComparison.OrdinalIgnoreCase);
@@ -37,9 +43,24 @@ namespace AituConnectAPI.Commands
                     UserName = username,
                     NormalizedUserName = username.ToUpper(),
                     Role = Roles.USER,
-                    JoinedDate = DateTime.UtcNow
+                    JoinedDate = DateTime.UtcNow,
+                    University = string.Empty,
+                    Faculty = string.Empty
                 });
-                await _botClient.SendMessage(chatId, "Welcome! You have been registered.");
+
+                var context = new PipelineContext()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ChatId = chatId,
+                    CurrentStep = "UNIVERSITY",
+                    Content = string.Empty,
+                    IsCompleted = false
+                };
+
+                await _pipelineContextService.AddAsync(context);
+                await _registrationPipeline.ExecuteAsync(context);
+
+                //await _botClient.SendMessage(chatId, "Welcome! You have been registered.");
             }
             else
             {

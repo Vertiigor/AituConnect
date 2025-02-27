@@ -2,6 +2,7 @@ using AituConnectAPI.Bot;
 using AituConnectAPI.Commands;
 using AituConnectAPI.Data;
 using AituConnectAPI.Models;
+using AituConnectAPI.Pipelines.Registration;
 using AituConnectAPI.Repositories.Abstractions;
 using AituConnectAPI.Repositories.Implementations;
 using AituConnectAPI.Services.Abstractions;
@@ -35,13 +36,20 @@ public class Program
         builder.Services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(botApiToken));
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IPostService, PostService>();
+        builder.Services.AddScoped<IPipelineContextService, PipelineContextService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IPostRepository, PostRepository>();
+        builder.Services.AddScoped<IPipelineContextRepository, PipelineContextRepository>();
         builder.Services.AddScoped<ICommand, StartCommand>();
         builder.Services.AddScoped<BotMessageHandler>();
         builder.Services.AddScoped<CommandDispatcher>();
         builder.Services.AddSingleton<BotClient>();
 
+        // Register the RegistrationPipeline and its steps
+        builder.Services.AddScoped<RegistrationPipeline>();
+        builder.Services.AddScoped<UniversityStep>();
+        builder.Services.AddScoped<FacultyStep>();
+        builder.Services.AddScoped<CongratulationStep>();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -21,10 +21,16 @@ namespace AituConnectAPI.Bot
                     using var scope = _scopeFactory.CreateScope();
                     var handler = scope.ServiceProvider.GetRequiredService<BotMessageHandler>();
                     await handler.HandleUpdateAsync(update);
+                    await handler.HandleMessageAsync(update);
                 },
                 async (bot, exception, token) => Console.WriteLine(exception.Message),
                 new Telegram.Bot.Polling.ReceiverOptions()
             );
+        }
+
+        public async Task SendTextMessageAsync(string chatId, string text)
+        {
+            await _botClient.SendMessage(chatId, text);
         }
     }
 }
