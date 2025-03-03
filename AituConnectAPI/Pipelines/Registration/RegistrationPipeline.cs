@@ -1,5 +1,5 @@
 ﻿using AituConnectAPI.Bot;
-using AituConnectAPI.Models.Abstractions;
+using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.Abstractions;
 
 namespace AituConnectAPI.Pipelines.Registration
@@ -22,7 +22,7 @@ namespace AituConnectAPI.Pipelines.Registration
 
         public async Task ExecuteAsync(PipelineContext context)
         {
-            if(!context.IsCompleted)
+            if (!context.IsCompleted)
             {
                 foreach (var step in _steps)
                 {

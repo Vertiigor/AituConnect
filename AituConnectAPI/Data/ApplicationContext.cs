@@ -1,8 +1,6 @@
 ﻿using AituConnectAPI.Models;
-using AituConnectAPI.Models.Abstractions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace AituConnectAPI.Data
 {

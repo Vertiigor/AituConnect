@@ -1,5 +1,5 @@
 ﻿using AituConnectAPI.Data;
-using AituConnectAPI.Models.Abstractions;
+using AituConnectAPI.Models;
 using AituConnectAPI.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
 

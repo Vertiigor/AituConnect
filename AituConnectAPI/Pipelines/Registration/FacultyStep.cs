@@ -1,8 +1,7 @@
 ﻿using AituConnectAPI.Bot;
-using AituConnectAPI.Models.Abstractions;
+using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.Abstractions;
 using AituConnectAPI.Services.Abstractions;
-using Grpc.Net.Client.Balancer;
 
 namespace AituConnectAPI.Pipelines.Registration
 {
@@ -30,8 +29,7 @@ namespace AituConnectAPI.Pipelines.Registration
                 user.Faculty = context.Content;
                 await _userService.UpdateAsync(user);
 
-                // Mark the pipeline as completed
-                context.CurrentStep = "CONGRATULATION";
+                context.CurrentStep = "CONGRATULATION"; // Move to the next step
                 await _pipelineContextService.UpdateAsync(context);
             }
         }

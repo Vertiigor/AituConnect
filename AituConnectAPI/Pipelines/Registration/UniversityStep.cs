@@ -1,5 +1,5 @@
 ﻿using AituConnectAPI.Bot;
-using AituConnectAPI.Models.Abstractions;
+using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.Abstractions;
 using AituConnectAPI.Services.Abstractions;
 
@@ -29,8 +29,8 @@ namespace AituConnectAPI.Pipelines.Registration
                 user.University = context.Content;
                 await _userService.UpdateAsync(user);
 
-                //context.IsCompleted = true; // Move to the next step
-                context.CurrentStep = "FACULTY";
+                context.StartedDate = DateTime.UtcNow;
+                context.CurrentStep = "FACULTY";    // Move to the next step
                 context.Content = "";
                 await _pipelineContextService.UpdateAsync(context);
             }

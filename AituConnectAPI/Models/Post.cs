@@ -9,9 +9,6 @@ namespace AituConnectAPI.Models
         public string Id { get; set; }
 
         [Required]
-        public DateTime CreationDate { get; set; }
-
-        [Required]
         public string Title { get; set; }
 
         [Required]
@@ -19,5 +16,8 @@ namespace AituConnectAPI.Models
 
         [Required]
         public string AuthorId { get; set; }
+
+        [Required]
+        public DateTime CreationDate { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AituConnectAPI.Pipelines.Registration;
 using AituConnectAPI.Services.Abstractions;
-using Polly.Telemetry;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -53,11 +52,10 @@ public class BotMessageHandler
 
         // Save the updated context
         await _pipelineContextService.UpdateAsync(context);
-        //var updatedContext = await _pipelineContextService.GetByChatIdAsync(chatId);
 
-        // Execute the next step in the pipeline
-        await _registrationPipeline.ExecuteAsync(context);
-        await _registrationPipeline.ExecuteAsync(context);
+
+        await _registrationPipeline.ExecuteAsync(context); // Execute the current step in the pipeline
+        await _registrationPipeline.ExecuteAsync(context); // Execute the next step in the pipeline
     }
 
 }

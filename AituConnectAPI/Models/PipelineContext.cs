@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AituConnectAPI.Models.Abstractions
+namespace AituConnectAPI.Models
 {
     public class PipelineContext
     {
@@ -18,5 +18,11 @@ namespace AituConnectAPI.Models.Abstractions
 
         [Required]
         public bool IsCompleted { get; set; } = false;
+
+        [Required]
+        public DateTime StartedDate { get; set; }
+
+        [Required]
+        public DateTime FinishedDate { get; set; }
     }
 }

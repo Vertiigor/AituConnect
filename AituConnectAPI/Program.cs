@@ -20,7 +20,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddDbContext<ApplicationContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseContext") ?? throw new InvalidOperationException("Connection string 'BookStoreContext' not found.")));
-        
+
         var botApiToken = builder.Configuration["BotConnection:ApiToken"]
             ?? throw new InvalidOperationException("API token 'BotConnection:ApiToken' not found.");
 
@@ -70,7 +70,6 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
 
         app.MapControllers();
 

@@ -2,7 +2,6 @@
 using AituConnectAPI.Models;
 using AituConnectAPI.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace AituConnectAPI.Repositories.Implementations
 {

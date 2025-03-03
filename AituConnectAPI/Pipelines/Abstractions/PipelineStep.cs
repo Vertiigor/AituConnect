@@ -1,5 +1,5 @@
 ﻿using AituConnectAPI.Bot;
-using AituConnectAPI.Models.Abstractions;
+using AituConnectAPI.Models;
 
 namespace AituConnectAPI.Pipelines.Abstractions
 {

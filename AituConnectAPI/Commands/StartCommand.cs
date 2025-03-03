@@ -1,9 +1,9 @@
-﻿using AituConnectAPI.Services.Abstractions;
+﻿using AituConnectAPI.Models;
+using AituConnectAPI.Models.Abstractions;
+using AituConnectAPI.Pipelines.Registration;
+using AituConnectAPI.Services.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using AituConnectAPI.Models;
-using AituConnectAPI.Pipelines.Registration;
-using AituConnectAPI.Models.Abstractions;
 
 namespace AituConnectAPI.Commands
 {
@@ -32,7 +32,7 @@ namespace AituConnectAPI.Commands
             var username = update.Message.Chat.Username ?? "Unknown";
 
             var user = await _userService.GetByChatIdAsync(chatId);
-            
+
             var isAdded = await _userService.DoesUserExist(user);
 
             if (isAdded == false)
@@ -60,7 +60,6 @@ namespace AituConnectAPI.Commands
                 await _pipelineContextService.AddAsync(context);
                 await _registrationPipeline.ExecuteAsync(context);
 
-                //await _botClient.SendMessage(chatId, "Welcome! You have been registered.");
             }
             else
             {

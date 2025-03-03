@@ -12,7 +12,7 @@ namespace AituConnectAPI.Services.Implementations
         {
             _userRepository = userRepository;
         }
-        
+
         public async Task<bool> DoesUserExist(User user)
         {
             if (user == null) return false;

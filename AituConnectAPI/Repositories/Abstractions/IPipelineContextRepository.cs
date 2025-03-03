@@ -1,4 +1,4 @@
-﻿using AituConnectAPI.Models.Abstractions;
+﻿using AituConnectAPI.Models;
 
 namespace AituConnectAPI.Repositories.Abstractions
 {
