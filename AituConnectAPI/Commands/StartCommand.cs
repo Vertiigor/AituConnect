@@ -1,5 +1,4 @@
 ﻿using AituConnectAPI.Models;
-using AituConnectAPI.Models.Abstractions;
 using AituConnectAPI.Pipelines.Registration;
 using AituConnectAPI.Services.Abstractions;
 using Telegram.Bot;
@@ -23,6 +22,7 @@ namespace AituConnectAPI.Commands
         }
 
         public bool CanHandle(string command) => command.Equals("/start", StringComparison.OrdinalIgnoreCase);
+
 
         public async Task HandleAsync(Update update)
         {
@@ -59,7 +59,6 @@ namespace AituConnectAPI.Commands
 
                 await _pipelineContextService.AddAsync(context);
                 await _registrationPipeline.ExecuteAsync(context);
-
             }
             else
             {

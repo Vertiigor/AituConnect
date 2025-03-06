@@ -10,7 +10,7 @@ namespace AituConnectAPI.Pipelines.Registration
         private readonly IPipelineContextService _pipelineContextService;
         private readonly IUserService _userService;
 
-        public FacultyStep(BotClient botClient, IPipelineContextService pipelineContextService, IUserService userService) : base(botClient)
+        public FacultyStep(BotMessageSender messageSender, IPipelineContextService pipelineContextService, IUserService userService) : base(messageSender)
         {
             _pipelineContextService = pipelineContextService;
             _userService = userService;
@@ -21,7 +21,7 @@ namespace AituConnectAPI.Pipelines.Registration
             if (string.IsNullOrEmpty(context.Content))
             {
                 // Ask user for the title
-                await _botClient.SendTextMessageAsync(context.ChatId, "Enter the name of the educational program you're learning: ");
+                await _messageSender.SendTextMessageAsync(context.ChatId, "Enter the name of the educational program you're learning: ");
             }
             else
             {

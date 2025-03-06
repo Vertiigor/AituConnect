@@ -7,11 +7,11 @@ namespace AituConnectAPI.Pipelines.Registration
     public class RegistrationPipeline
     {
         private readonly List<PipelineStep> _steps;
-        protected readonly BotClient _botClient;
+        protected readonly BotMessageSender _messageSender;
 
-        public RegistrationPipeline(BotClient botClient, UniversityStep universityStep, FacultyStep facultyStep, CongratulationStep congratulationStep)
+        public RegistrationPipeline(BotMessageSender messageSender, UniversityStep universityStep, FacultyStep facultyStep, CongratulationStep congratulationStep)
         {
-            _botClient = botClient;
+            _messageSender = messageSender;
             _steps = new List<PipelineStep>()
             {
                 universityStep,

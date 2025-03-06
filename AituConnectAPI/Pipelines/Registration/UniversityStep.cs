@@ -2,6 +2,8 @@
 using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.Abstractions;
 using AituConnectAPI.Services.Abstractions;
+using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace AituConnectAPI.Pipelines.Registration
 {
@@ -9,19 +11,32 @@ namespace AituConnectAPI.Pipelines.Registration
     {
         private readonly IPipelineContextService _pipelineContextService;
         private readonly IUserService _userService;
+        private readonly KeyboardMarkupBuilder _keyboardMarkup;
 
-        public UniversityStep(BotClient botClient, IPipelineContextService pipelineContextService, IUserService userService) : base(botClient)
+        public UniversityStep(BotMessageSender messageSender, IPipelineContextService pipelineContextService, IUserService userService, KeyboardMarkupBuilder keyboardMarkup) : base(messageSender)
         {
             _pipelineContextService = pipelineContextService;
             _userService = userService;
+            _keyboardMarkup = keyboardMarkup;
         }
 
         public override async Task ExecuteAsync(PipelineContext context)
         {
             if (string.IsNullOrEmpty(context.Content))
             {
+                List<string> universities = new List<string> { "AITU", "MIT", "Harvard", "UCLA", "University of Utah" };
+                List<InlineKeyboardButton> buttons = new List<InlineKeyboardButton>();
+
+                foreach (var university in universities)
+                {
+                    var button = _keyboardMarkup.InitializeInlineKeyboardButton(university, $"choose_university:{university}");
+                    buttons.Add(button);
+                }
+
+                var keyboard = _keyboardMarkup.InitializeInlineKeyboardMarkup(buttons);
+
                 // Ask user for the title
-                await _botClient.SendTextMessageAsync(context.ChatId, "Enter the name of university you're styding in: ");
+                await _messageSender.SendTextMessageAsync(context.ChatId, "Enter the name of university you're styding in: ", replyMarkup: keyboard);
             }
             else
             {

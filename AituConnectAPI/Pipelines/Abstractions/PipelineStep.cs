@@ -5,11 +5,11 @@ namespace AituConnectAPI.Pipelines.Abstractions
 {
     public abstract class PipelineStep
     {
-        protected readonly BotClient _botClient;
+        protected readonly BotMessageSender _messageSender;
 
-        protected PipelineStep(BotClient botClient)
+        protected PipelineStep(BotMessageSender messageSender)
         {
-            _botClient = botClient;
+            _messageSender = messageSender;
         }
 
         public abstract Task ExecuteAsync(PipelineContext context);

@@ -11,8 +11,9 @@ public class BotMessageHandler
     private readonly RegistrationPipeline _registrationPipeline;
     private readonly IPipelineContextService _pipelineContextService;
     private readonly IUserService _userService;
+    private readonly CallbackHandler _callbackHandler;
 
-    public BotMessageHandler(CommandDispatcher dispatcher, IServiceScopeFactory scopeFactory, ITelegramBotClient botClient, RegistrationPipeline registrationPipeline, IPipelineContextService pipelineContextService, IUserService userService)
+    public BotMessageHandler(CommandDispatcher dispatcher, IServiceScopeFactory scopeFactory, ITelegramBotClient botClient, RegistrationPipeline registrationPipeline, IPipelineContextService pipelineContextService, IUserService userService, CallbackHandler callbackHandler)
     {
         _dispatcher = dispatcher;
         _scopeFactory = scopeFactory;
@@ -20,6 +21,7 @@ public class BotMessageHandler
         _registrationPipeline = registrationPipeline;
         _pipelineContextService = pipelineContextService;
         _userService = userService;
+        _callbackHandler = callbackHandler;
     }
 
     public async Task HandleUpdateAsync(Update update)
@@ -28,6 +30,13 @@ public class BotMessageHandler
         var dispatcher = scope.ServiceProvider.GetRequiredService<CommandDispatcher>();
         await dispatcher.DispatchAsync(update);
     }
+
+    private async Task OnCallbackQueryReceived(CallbackQuery query)
+    {
+        await _callbackHandler.HandleCallbackAsync(query);
+    }
+
+
     public async Task HandleMessageAsync(Update update)
     {
         if (update.Message == null) return;
@@ -47,11 +56,16 @@ public class BotMessageHandler
             return;
         }
 
-        // Update the context with the user's input
-        context.Content = update.Message.Text;
+        if (!string.IsNullOrEmpty(update.Message.Text))
+        {
+            // Update the context with the user's input
+            context.Content = update.Message.Text;
 
-        // Save the updated context
-        await _pipelineContextService.UpdateAsync(context);
+            // Save the updated context
+            await _pipelineContextService.UpdateAsync(context);
+        }
+
+        await OnCallbackQueryReceived(update.CallbackQuery);
 
 
         await _registrationPipeline.ExecuteAsync(context); // Execute the current step in the pipeline
