@@ -41,6 +41,7 @@ public class Program
         builder.Services.AddScoped<IPostRepository, PostRepository>();
         builder.Services.AddScoped<IPipelineContextRepository, PipelineContextRepository>();
         builder.Services.AddScoped<CallbackHandler>();
+        builder.Services.AddScoped<PipelineHandler>();
         builder.Services.AddScoped<KeyboardMarkupBuilder>();
         builder.Services.AddScoped<BotMessageSender>();
         builder.Services.AddScoped<ICommand, StartCommand>();

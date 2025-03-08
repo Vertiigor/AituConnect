@@ -1,38 +1,21 @@
 ﻿using AituConnectAPI.Bot;
-using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.Abstractions;
 
 namespace AituConnectAPI.Pipelines.Registration
 {
-    public class RegistrationPipeline
+    public class RegistrationPipeline : Pipeline
     {
-        private readonly List<PipelineStep> _steps;
-        protected readonly BotMessageSender _messageSender;
-
-        public RegistrationPipeline(BotMessageSender messageSender, UniversityStep universityStep, FacultyStep facultyStep, CongratulationStep congratulationStep)
+        public RegistrationPipeline(BotMessageSender messageSender, UniversityStep universityStep, FacultyStep facultyStep, CongratulationStep congratulationStep) : base(messageSender)
         {
-            _messageSender = messageSender;
-            _steps = new List<PipelineStep>()
-            {
-                universityStep,
-                facultyStep,
-                congratulationStep
-            };
-        }
-
-        public async Task ExecuteAsync(PipelineContext context)
-        {
-            if (!context.IsCompleted)
-            {
-                foreach (var step in _steps)
-                {
-                    if (step.IsApplicable(context))
-                    {
-                        await step.ExecuteAsync(context);
-                        break; // Execute only the current step
-                    }
-                }
-            }
+            //_steps = new List<PipelineStep>()
+            //{
+            //    universityStep,
+            //    facultyStep,
+            //    congratulationStep
+            //};
+            _steps.Add(universityStep);
+            _steps.Add(facultyStep);
+            _steps.Add(congratulationStep);
         }
     }
 }

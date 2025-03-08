@@ -2,21 +2,16 @@
 using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.Abstractions;
 using AituConnectAPI.Services.Abstractions;
-using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace AituConnectAPI.Pipelines.Registration
 {
     public class UniversityStep : PipelineStep
     {
-        private readonly IPipelineContextService _pipelineContextService;
-        private readonly IUserService _userService;
         private readonly KeyboardMarkupBuilder _keyboardMarkup;
 
-        public UniversityStep(BotMessageSender messageSender, IPipelineContextService pipelineContextService, IUserService userService, KeyboardMarkupBuilder keyboardMarkup) : base(messageSender)
+        public UniversityStep(BotMessageSender messageSender, IPipelineContextService pipelineContextService, IUserService userService, KeyboardMarkupBuilder keyboardMarkup) : base(messageSender, pipelineContextService, userService)
         {
-            _pipelineContextService = pipelineContextService;
-            _userService = userService;
             _keyboardMarkup = keyboardMarkup;
         }
 
@@ -46,7 +41,7 @@ namespace AituConnectAPI.Pipelines.Registration
 
                 context.StartedDate = DateTime.UtcNow;
                 context.CurrentStep = "FACULTY";    // Move to the next step
-                context.Content = "";
+                context.Content = string.Empty;
                 await _pipelineContextService.UpdateAsync(context);
             }
         }

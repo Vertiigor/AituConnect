@@ -7,13 +7,8 @@ namespace AituConnectAPI.Pipelines.Registration
 {
     public class FacultyStep : PipelineStep
     {
-        private readonly IPipelineContextService _pipelineContextService;
-        private readonly IUserService _userService;
-
-        public FacultyStep(BotMessageSender messageSender, IPipelineContextService pipelineContextService, IUserService userService) : base(messageSender)
+        public FacultyStep(BotMessageSender messageSender, IPipelineContextService pipelineContextService, IUserService userService) : base(messageSender, pipelineContextService, userService)
         {
-            _pipelineContextService = pipelineContextService;
-            _userService = userService;
         }
 
         public override async Task ExecuteAsync(PipelineContext context)

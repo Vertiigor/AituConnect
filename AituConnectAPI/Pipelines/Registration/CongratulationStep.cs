@@ -7,12 +7,8 @@ namespace AituConnectAPI.Pipelines.Registration
 {
     public class CongratulationStep : PipelineStep
     {
-        private readonly IPipelineContextService _pipelineContextService;
-        private readonly IUserService _userService;
-        public CongratulationStep(BotMessageSender messageSender, IPipelineContextService pipelineContextService, IUserService userService) : base(messageSender)
+        public CongratulationStep(BotMessageSender messageSender, IPipelineContextService pipelineContextService, IUserService userService) : base(messageSender, pipelineContextService, userService)
         {
-            _pipelineContextService = pipelineContextService;
-            _userService = userService;
         }
 
         public async override Task ExecuteAsync(PipelineContext context)
@@ -22,6 +18,7 @@ namespace AituConnectAPI.Pipelines.Registration
             context.IsCompleted = true;
             context.FinishedDate = DateTime.UtcNow;
             await _pipelineContextService.UpdateAsync(context);
+            await _pipelineContextService.DeleteAsync(context.Id);
             await _messageSender.SendTextMessageAsync(context.ChatId, $"Welcome! You have been registered. These are your data:\nUsername: {user.UserName}\nUniversity: {user.University}\nFaculty: {user.Faculty}");
         }
 

@@ -1,4 +1,5 @@
-﻿using AituConnectAPI.Models;
+﻿using AituConnectAPI.Bot;
+using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.Registration;
 using AituConnectAPI.Services.Abstractions;
 using Telegram.Bot;
@@ -12,13 +13,15 @@ namespace AituConnectAPI.Commands
         private readonly IUserService _userService;
         private readonly IPipelineContextService _pipelineContextService;
         private readonly RegistrationPipeline _registrationPipeline;
+        private readonly PipelineHandler _pipeline;
 
-        public StartCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, RegistrationPipeline registrationPipeline)
+        public StartCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, RegistrationPipeline registrationPipeline, PipelineHandler pipelineHandler)
         {
             _botClient = botClient;
             _pipelineContextService = pipelineContextService;
             _userService = userService;
             _registrationPipeline = registrationPipeline;
+            _pipeline = pipelineHandler;
         }
 
         public bool CanHandle(string command) => command.Equals("/start", StringComparison.OrdinalIgnoreCase);
@@ -52,13 +55,16 @@ namespace AituConnectAPI.Commands
                 {
                     Id = Guid.NewGuid().ToString(),
                     ChatId = chatId,
+                    Type = "REGISTRATION",
                     CurrentStep = "UNIVERSITY",
                     Content = string.Empty,
                     IsCompleted = false
                 };
 
                 await _pipelineContextService.AddAsync(context);
-                await _registrationPipeline.ExecuteAsync(context);
+                //await _botClient.SendMessage(chatId, "Let's start the registration.");
+                await _pipeline.HandlePipelineAsync(context);
+                //await _registrationPipeline.ExecuteAsync(context);
             }
             else
             {

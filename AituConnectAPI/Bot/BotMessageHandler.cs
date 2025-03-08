@@ -1,27 +1,25 @@
-﻿using AituConnectAPI.Pipelines.Registration;
+﻿using AituConnectAPI.Bot;
+using AituConnectAPI.Models;
 using AituConnectAPI.Services.Abstractions;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 
 public class BotMessageHandler
 {
     private readonly CommandDispatcher _dispatcher;
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly ITelegramBotClient _botClient;
-    private readonly RegistrationPipeline _registrationPipeline;
     private readonly IPipelineContextService _pipelineContextService;
     private readonly IUserService _userService;
     private readonly CallbackHandler _callbackHandler;
+    private readonly PipelineHandler _pipeline;
 
-    public BotMessageHandler(CommandDispatcher dispatcher, IServiceScopeFactory scopeFactory, ITelegramBotClient botClient, RegistrationPipeline registrationPipeline, IPipelineContextService pipelineContextService, IUserService userService, CallbackHandler callbackHandler)
+    public BotMessageHandler(CommandDispatcher dispatcher, IServiceScopeFactory scopeFactory, IPipelineContextService pipelineContextService, IUserService userService, CallbackHandler callbackHandler, PipelineHandler pipelineHandler)
     {
         _dispatcher = dispatcher;
         _scopeFactory = scopeFactory;
-        _botClient = botClient;
-        _registrationPipeline = registrationPipeline;
         _pipelineContextService = pipelineContextService;
         _userService = userService;
         _callbackHandler = callbackHandler;
+        _pipeline = pipelineHandler;
     }
 
     public async Task HandleUpdateAsync(Update update)
@@ -67,9 +65,12 @@ public class BotMessageHandler
 
         await OnCallbackQueryReceived(update.CallbackQuery);
 
-
-        await _registrationPipeline.ExecuteAsync(context); // Execute the current step in the pipeline
-        await _registrationPipeline.ExecuteAsync(context); // Execute the next step in the pipeline
+        await OnPipelineUpdate(context);
+        await OnPipelineUpdate(context);
     }
 
+    private async Task OnPipelineUpdate(PipelineContext context)
+    {
+        await _pipeline.HandlePipelineAsync(context);
+    }
 }

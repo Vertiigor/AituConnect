@@ -1,8 +1,5 @@
-﻿using AituConnectAPI.Bot;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 public class KeyboardMarkupBuilder
 {
