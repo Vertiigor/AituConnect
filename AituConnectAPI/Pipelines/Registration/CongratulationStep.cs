@@ -17,7 +17,6 @@ namespace AituConnectAPI.Pipelines.Registration
             // Mark the pipeline as completed
             context.IsCompleted = true;
             context.FinishedDate = DateTime.UtcNow;
-            await _pipelineContextService.UpdateAsync(context);
             await _pipelineContextService.DeleteAsync(context.Id);
             await _messageSender.SendTextMessageAsync(context.ChatId, $"Welcome! You have been registered. These are your data:\nUsername: {user.UserName}\nUniversity: {user.University}\nFaculty: {user.Faculty}");
         }

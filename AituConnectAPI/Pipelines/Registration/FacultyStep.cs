@@ -25,6 +25,7 @@ namespace AituConnectAPI.Pipelines.Registration
                 await _userService.UpdateAsync(user);
 
                 context.CurrentStep = "CONGRATULATION"; // Move to the next step
+                context.Content = string.Empty;
                 await _pipelineContextService.UpdateAsync(context);
             }
         }

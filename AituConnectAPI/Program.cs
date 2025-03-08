@@ -2,6 +2,7 @@ using AituConnectAPI.Bot;
 using AituConnectAPI.Commands;
 using AituConnectAPI.Data;
 using AituConnectAPI.Models;
+using AituConnectAPI.Pipelines.PostCreation;
 using AituConnectAPI.Pipelines.Registration;
 using AituConnectAPI.Repositories.Abstractions;
 using AituConnectAPI.Repositories.Implementations;
@@ -45,6 +46,7 @@ public class Program
         builder.Services.AddScoped<KeyboardMarkupBuilder>();
         builder.Services.AddScoped<BotMessageSender>();
         builder.Services.AddScoped<ICommand, StartCommand>();
+        builder.Services.AddScoped<ICommand, CreatePostCommand>();
         builder.Services.AddScoped<BotMessageHandler>();
         builder.Services.AddScoped<CommandDispatcher>();
         builder.Services.AddSingleton<BotClient>();
@@ -54,6 +56,11 @@ public class Program
         builder.Services.AddScoped<UniversityStep>();
         builder.Services.AddScoped<FacultyStep>();
         builder.Services.AddScoped<CongratulationStep>();
+
+        // Register the PostCreationPipeline and its steps
+        builder.Services.AddScoped<PostCreationPipeline>();
+        builder.Services.AddScoped<TitleStep>();
+        builder.Services.AddScoped<ContentStep>();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

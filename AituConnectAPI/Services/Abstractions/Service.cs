@@ -4,7 +4,7 @@ namespace AituConnectAPI.Services.Abstractions
 {
     public abstract class Service<T> : IService<T> where T : class
     {
-        private readonly IRepository<T> _repository;
+        protected readonly IRepository<T> _repository;
 
         public Service(IRepository<T> repository)
         {
