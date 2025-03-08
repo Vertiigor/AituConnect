@@ -18,6 +18,9 @@ namespace AituConnectAPI.Models
         public string AuthorId { get; set; }
 
         [Required]
+        public string Status { get; set; }
+
+        [Required]
         public DateTime CreationDate { get; set; }
     }
 }

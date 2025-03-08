@@ -48,6 +48,7 @@ namespace AituConnectAPI.Commands
                     Title = string.Empty,
                     Content = string.Empty,
                     CreationDate = DateTime.UtcNow,
+                    Status = "DRAFT"
                 };
                 var context = new PipelineContext()
                 {

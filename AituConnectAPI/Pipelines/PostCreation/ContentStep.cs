@@ -24,13 +24,21 @@ namespace AituConnectAPI.Pipelines.PostCreation
             else
             {
                 var owner = await _userService.GetByChatIdAsync(context.ChatId);
-                var post = await _postService.GetByAuthorIdAsync(owner.Id);
+                var posts = await _postService.GetAllAsync();
+
+                List<Post> sortedPosts = posts.Where(p => p.Status == "DRAFT").OrderByDescending(p => p.CreationDate).ToList();
+
+                if (sortedPosts.Count == 0)
+                    return;
+
+                var post = sortedPosts.First();
+
                 post.Content = context.Content;
+                post.Status = "PUBLISHED";
 
                 await _postService.UpdateAsync(post);
 
                 context.CurrentStep = "CONTENT"; // Move to the next step
-                context.Content = string.Empty;
                 await _pipelineContextService.DeleteAsync(context.Id);
             }
         }
