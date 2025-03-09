@@ -24,7 +24,7 @@ namespace AituConnectAPI.Pipelines.Registration
                 user.Faculty = context.Content;
                 await _userService.UpdateAsync(user);
 
-                context.CurrentStep = "CONGRATULATION"; // Move to the next step
+                context.CurrentStep = PipelineStepType.Congratulation; // Move to the next step
                 context.Content = string.Empty;
                 await _pipelineContextService.UpdateAsync(context);
             }
@@ -32,7 +32,7 @@ namespace AituConnectAPI.Pipelines.Registration
 
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == "FACULTY";
+            return context.CurrentStep == PipelineStepType.Faculty;
         }
     }
 }

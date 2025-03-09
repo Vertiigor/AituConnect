@@ -1,28 +1,31 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
-public class KeyboardMarkupBuilder
+namespace AituConnectAPI.Keyboards
 {
-    public InlineKeyboardButton InitializeInlineKeyboardButton(string text, string callbackData)
+    public class KeyboardMarkupBuilder
     {
-        return new InlineKeyboardButton
+        public InlineKeyboardButton InitializeInlineKeyboardButton(string text, string callbackData)
         {
-            Text = text,
-            CallbackData = callbackData
-        };
-    }
+            return new InlineKeyboardButton
+            {
+                Text = text,
+                CallbackData = callbackData
+            };
+        }
 
-    public InlineKeyboardMarkup InitializeInlineKeyboardMarkup(List<InlineKeyboardButton> buttons, int buttonsPerRow = 2)
-    {
-        return new InlineKeyboardMarkup(buttons.Chunk(buttonsPerRow));
-    }
+        public InlineKeyboardMarkup InitializeInlineKeyboardMarkup(List<InlineKeyboardButton> buttons, int buttonsPerRow = 2)
+        {
+            return new InlineKeyboardMarkup(buttons.Chunk(buttonsPerRow));
+        }
 
-    public async Task RemoveKeyboardAsync(ITelegramBotClient botClient, string chatId, int messageId)
-    {
-        await botClient.EditMessageReplyMarkup(
-            chatId: chatId,
-            messageId: messageId,
-            replyMarkup: null // This removes the inline buttons
-        );
+        public async Task RemoveKeyboardAsync(ITelegramBotClient botClient, string chatId, int messageId)
+        {
+            await botClient.EditMessageReplyMarkup(
+                chatId: chatId,
+                messageId: messageId,
+                replyMarkup: null // This removes the inline buttons
+            );
+        }
     }
 }

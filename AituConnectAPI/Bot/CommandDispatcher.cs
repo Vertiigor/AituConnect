@@ -1,25 +1,28 @@
 ﻿using AituConnectAPI.Commands;
 using Telegram.Bot.Types;
 
-public class CommandDispatcher
+namespace AituConnectAPI.Bot
 {
-    private readonly IEnumerable<ICommand> _commandHandlers;
-
-    public CommandDispatcher(IEnumerable<ICommand> commandHandlers)
+    public class CommandDispatcher
     {
-        _commandHandlers = commandHandlers;
-    }
+        private readonly IEnumerable<ICommand> _commandHandlers;
 
-    public async Task DispatchAsync(Update update)
-    {
-        if (update.Message?.Text == null) return;
-
-        var command = update.Message.Text.Split(' ')[0];
-
-        var handler = _commandHandlers.FirstOrDefault(h => h.CanHandle(command));
-        if (handler != null)
+        public CommandDispatcher(IEnumerable<ICommand> commandHandlers)
         {
-            await handler.HandleAsync(update);
+            _commandHandlers = commandHandlers;
+        }
+
+        public async Task DispatchAsync(Update update)
+        {
+            if (update.Message?.Text == null) return;
+
+            var command = update.Message.Text.Split(' ')[0];
+
+            var handler = _commandHandlers.FirstOrDefault(h => h.CanHandle(command));
+            if (handler != null)
+            {
+                await handler.HandleAsync(update);
+            }
         }
     }
 }

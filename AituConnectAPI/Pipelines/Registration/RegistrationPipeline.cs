@@ -7,12 +7,6 @@ namespace AituConnectAPI.Pipelines.Registration
     {
         public RegistrationPipeline(BotMessageSender messageSender, UniversityStep universityStep, FacultyStep facultyStep, CongratulationStep congratulationStep) : base(messageSender)
         {
-            //_steps = new List<PipelineStep>()
-            //{
-            //    universityStep,
-            //    facultyStep,
-            //    congratulationStep
-            //};
             _steps.Add(universityStep);
             _steps.Add(facultyStep);
             _steps.Add(congratulationStep);

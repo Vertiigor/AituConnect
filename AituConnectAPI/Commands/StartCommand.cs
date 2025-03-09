@@ -1,6 +1,6 @@
 ﻿using AituConnectAPI.Bot;
 using AituConnectAPI.Models;
-using AituConnectAPI.Pipelines.Registration;
+using AituConnectAPI.Pipelines.Abstractions;
 using AituConnectAPI.Services.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -12,15 +12,13 @@ namespace AituConnectAPI.Commands
         private readonly ITelegramBotClient _botClient;
         private readonly IUserService _userService;
         private readonly IPipelineContextService _pipelineContextService;
-        private readonly RegistrationPipeline _registrationPipeline;
         private readonly PipelineHandler _pipeline;
 
-        public StartCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, RegistrationPipeline registrationPipeline, PipelineHandler pipelineHandler)
+        public StartCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, PipelineHandler pipelineHandler)
         {
             _botClient = botClient;
             _pipelineContextService = pipelineContextService;
             _userService = userService;
-            _registrationPipeline = registrationPipeline;
             _pipeline = pipelineHandler;
         }
 
@@ -45,7 +43,7 @@ namespace AituConnectAPI.Commands
                     ChatId = chatId,
                     UserName = username,
                     NormalizedUserName = username.ToUpper(),
-                    Role = Roles.USER,
+                    Role = Roles.User,
                     JoinedDate = DateTime.UtcNow,
                     University = string.Empty,
                     Faculty = string.Empty
@@ -55,16 +53,14 @@ namespace AituConnectAPI.Commands
                 {
                     Id = Guid.NewGuid().ToString(),
                     ChatId = chatId,
-                    Type = "REGISTRATION",
-                    CurrentStep = "UNIVERSITY",
+                    Type = PipelineType.Registration,
+                    CurrentStep = PipelineStepType.Univeristy,
                     Content = string.Empty,
                     IsCompleted = false
                 };
 
                 await _pipelineContextService.AddAsync(context);
-                //await _botClient.SendMessage(chatId, "Let's start the registration.");
                 await _pipeline.HandlePipelineAsync(context);
-                //await _registrationPipeline.ExecuteAsync(context);
             }
             else
             {

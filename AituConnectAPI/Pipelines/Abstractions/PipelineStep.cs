@@ -4,6 +4,14 @@ using AituConnectAPI.Services.Abstractions;
 
 namespace AituConnectAPI.Pipelines.Abstractions
 {
+    public enum PipelineStepType
+    {
+        Univeristy,
+        Faculty,
+        Congratulation,
+        Title,
+        Content
+    }
     public abstract class PipelineStep
     {
         protected readonly BotMessageSender _messageSender;

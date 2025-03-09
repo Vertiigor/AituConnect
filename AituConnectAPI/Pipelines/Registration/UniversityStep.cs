@@ -1,4 +1,5 @@
 ﻿using AituConnectAPI.Bot;
+using AituConnectAPI.Keyboards;
 using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.Abstractions;
 using AituConnectAPI.Services.Abstractions;
@@ -24,7 +25,7 @@ namespace AituConnectAPI.Pipelines.Registration
 
                 foreach (var university in universities)
                 {
-                    var button = _keyboardMarkup.InitializeInlineKeyboardButton(university, $"choose_university:{university}");
+                    var button = _keyboardMarkup.InitializeInlineKeyboardButton(university, $"{CallbackType.ChooseUniversity.ToString()}:{university}");
                     buttons.Add(button);
                 }
 
@@ -40,7 +41,7 @@ namespace AituConnectAPI.Pipelines.Registration
                 await _userService.UpdateAsync(user);
 
                 context.StartedDate = DateTime.UtcNow;
-                context.CurrentStep = "FACULTY";    // Move to the next step
+                context.CurrentStep = PipelineStepType.Faculty;    // Move to the next step
                 context.Content = string.Empty;
                 await _pipelineContextService.UpdateAsync(context);
             }
@@ -48,7 +49,7 @@ namespace AituConnectAPI.Pipelines.Registration
 
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == "UNIVERSITY";
+            return context.CurrentStep == PipelineStepType.Univeristy;
         }
     }
 }

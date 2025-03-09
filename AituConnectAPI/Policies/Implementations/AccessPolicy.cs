@@ -13,7 +13,7 @@ namespace AituConnectAPI.Policies.Implementations
 
         public async Task<bool> CanEditPostsAsync(string userId)
         {
-            return await _roleService.IsInRoleAsync(userId, Models.Roles.ADMIN);
+            return await _roleService.IsInRoleAsync(userId, Models.Roles.Admin);
         }
     }
 }

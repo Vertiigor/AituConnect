@@ -23,7 +23,7 @@ namespace AituConnectAPI.Pipelines.Registration
 
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == "CONGRATULATION";
+            return context.CurrentStep == PipelineStepType.Congratulation;
         }
     }
 }

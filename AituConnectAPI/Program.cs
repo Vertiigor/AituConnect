@@ -1,6 +1,7 @@
 using AituConnectAPI.Bot;
 using AituConnectAPI.Commands;
 using AituConnectAPI.Data;
+using AituConnectAPI.Keyboards;
 using AituConnectAPI.Models;
 using AituConnectAPI.Pipelines.PostCreation;
 using AituConnectAPI.Pipelines.Registration;

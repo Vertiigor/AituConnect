@@ -26,7 +26,7 @@ namespace AituConnectAPI.Pipelines.PostCreation
                 var owner = await _userService.GetByChatIdAsync(context.ChatId);
                 var posts = await _postService.GetAllAsync();
 
-                List<Post> sortedPosts = posts.Where(p => p.Status == "DRAFT").OrderByDescending(p => p.CreationDate).ToList();
+                List<Post> sortedPosts = posts.Where(p => p.Status == PostStatus.Draft).OrderByDescending(p => p.CreationDate).ToList();
 
                 if (sortedPosts.Count == 0)
                     return;
@@ -37,7 +37,7 @@ namespace AituConnectAPI.Pipelines.PostCreation
 
                 await _postService.UpdateAsync(post);
 
-                context.CurrentStep = "CONTENT"; // Move to the next step
+                context.CurrentStep = PipelineStepType.Content; // Move to the next step
                 context.Content = string.Empty;
                 await _pipelineContextService.UpdateAsync(context);
             }
@@ -45,7 +45,7 @@ namespace AituConnectAPI.Pipelines.PostCreation
 
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == "TITLE";
+            return context.CurrentStep == PipelineStepType.Title;
         }
     }
 }

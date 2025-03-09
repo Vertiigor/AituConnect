@@ -3,6 +3,12 @@ using AituConnectAPI.Models;
 
 namespace AituConnectAPI.Pipelines.Abstractions
 {
+    public enum PipelineType
+    {
+        Registration,
+        PostCreation
+    }
+
     public abstract class Pipeline
     {
         protected readonly List<PipelineStep> _steps;

@@ -1,82 +1,80 @@
-﻿using AituConnectAPI.Bot;
+﻿using AituConnectAPI.Keyboards;
 using AituConnectAPI.Services.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-public class CallbackHandler
+namespace AituConnectAPI.Bot
 {
-    private readonly Dictionary<string, Func<CallbackQuery, Task>> _handlers;
-    private readonly IUserService _userService;
-    private readonly IPipelineContextService _pipelineContextService;
-    private readonly ITelegramBotClient _botClient;
-    private readonly KeyboardMarkupBuilder _keyboardMarkup;
-    private readonly BotMessageSender _messageSender;
-
-    public CallbackHandler(IServiceProvider serviceProvider, IUserService userService, IPipelineContextService pipelineContextService, ITelegramBotClient botClient, KeyboardMarkupBuilder keyboardMarkup, BotMessageSender messageSender)
+    public enum CallbackType
     {
-        _handlers = new Dictionary<string, Func<CallbackQuery, Task>>
-        {
-            ["choose_university"] = async (query) => await HandleChooseUniversity(query),
-            ["create_post"] = async (query) => await HandleCreatePost(query)
-        };
-        _userService = userService;
-        _userService = userService;
-        _pipelineContextService = pipelineContextService;
-        _botClient = botClient;
-        _keyboardMarkup = keyboardMarkup;
-        _messageSender = messageSender;
+        ChooseUniversity
     }
-
-    public async Task HandleCallbackAsync(CallbackQuery query)
+    public class CallbackHandler
     {
-        if (query == null)
+        private readonly Dictionary<string, Func<CallbackQuery, Task>> _handlers;
+        private readonly IPipelineContextService _pipelineContextService;
+        private readonly ITelegramBotClient _botClient;
+        private readonly KeyboardMarkupBuilder _keyboardMarkup;
+        private readonly BotMessageSender _messageSender;
+
+        public CallbackHandler(IServiceProvider serviceProvider, IPipelineContextService pipelineContextService, ITelegramBotClient botClient, KeyboardMarkupBuilder keyboardMarkup, BotMessageSender messageSender)
         {
-            return;
+            _handlers = new Dictionary<string, Func<CallbackQuery, Task>>
+            {
+                [CallbackType.ChooseUniversity.ToString()] = async (query) => await HandleChooseUniversity(query),
+            };
+            _pipelineContextService = pipelineContextService;
+            _botClient = botClient;
+            _keyboardMarkup = keyboardMarkup;
+            _messageSender = messageSender;
         }
 
-        var parts = query.Data.Split(':');
-        var handlerName = parts[0];
+        public async Task HandleCallbackAsync(CallbackQuery query)
+        {
+            if (query == null)
+            {
+                return;
+            }
 
-        if (_handlers.TryGetValue(handlerName, out var handler))
-        {
-            await handler(query);
-        }
-        else
-        {
-            Console.WriteLine($"Unknown callback data: {query.Data}");
-        }
-    }
+            var parts = query.Data.Split(':');
+            var handlerName = parts[0];
 
-    private async Task HandleChooseUniversity(CallbackQuery query)
-    {
-        // Logic to process university selection
-        // Extract university name (assuming format "choose_university:University Name")
-        var parts = query.Data.Split(':');
-        if (parts.Length < 2)
-        {
-            Console.WriteLine("Invalid callback data format.");
-            return;
+            if (_handlers.TryGetValue(handlerName, out var handler))
+            {
+                await handler(query);
+            }
+            else
+            {
+                Console.WriteLine($"Unknown callback data: {query.Data}");
+            }
         }
 
-        string universityName = parts[1]; // Extract name from callback data
+        private async Task HandleChooseUniversity(CallbackQuery query)
+        {
+            // Logic to process university selection
+            // Extract university name (assuming format "choose_university:University Name")
+            var parts = query.Data.Split(':');
+            if (parts.Length < 2)
+            {
+                Console.WriteLine("Invalid callback data format.");
+                return;
+            }
 
-        var chatId = query.Message.Chat.Id.ToString();
-        var messageId = query.Message.MessageId;
+            string universityName = parts[1]; // Extract name from callback data
 
-        var context = await _pipelineContextService.GetByChatIdAsync(chatId);
+            var chatId = query.Message.Chat.Id.ToString();
+            var messageId = query.Message.MessageId;
 
-        context.Content = universityName;
+            var context = await _pipelineContextService.GetByChatIdAsync(chatId);
 
-        await _pipelineContextService.UpdateAsync(context);
+            context.Content = universityName;
 
-        // Remove inline buttons after selection
-        await _keyboardMarkup.RemoveKeyboardAsync(_botClient, chatId, messageId);
+            await _pipelineContextService.UpdateAsync(context);
 
-        await _messageSender.EditTestMessageAsync(chatId, messageId, $"You've selected {universityName} as your university.");
-    }
+            // Remove inline buttons after selection
+            await _keyboardMarkup.RemoveKeyboardAsync(_botClient, chatId, messageId);
 
-    private async Task HandleCreatePost(CallbackQuery query)
-    {
-        // Logic to create a post
+            await _messageSender.EditTestMessageAsync(chatId, messageId, $"You've selected {universityName} as your university.");
+        }
     }
 }

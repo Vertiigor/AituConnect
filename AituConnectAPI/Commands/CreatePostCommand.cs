@@ -1,6 +1,6 @@
 ﻿using AituConnectAPI.Bot;
 using AituConnectAPI.Models;
-using AituConnectAPI.Pipelines.PostCreation;
+using AituConnectAPI.Pipelines.Abstractions;
 using AituConnectAPI.Services.Abstractions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -12,16 +12,14 @@ namespace AituConnectAPI.Commands
         private readonly ITelegramBotClient _botClient;
         private readonly IUserService _userService;
         private readonly IPipelineContextService _pipelineContextService;
-        private readonly PostCreationPipeline _postCreationPipeline;
         private readonly PipelineHandler _pipeline;
         private readonly IPostService _postService;
 
-        public CreatePostCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, PostCreationPipeline postCreationPipeline, PipelineHandler pipeline, IPostService postService)
+        public CreatePostCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, PipelineHandler pipeline, IPostService postService)
         {
             _botClient = botClient;
             _userService = userService;
             _pipelineContextService = pipelineContextService;
-            _postCreationPipeline = postCreationPipeline;
             _pipeline = pipeline;
             _postService = postService;
         }
@@ -48,21 +46,21 @@ namespace AituConnectAPI.Commands
                     Title = string.Empty,
                     Content = string.Empty,
                     CreationDate = DateTime.UtcNow,
-                    Status = "DRAFT"
+                    Status = PostStatus.Draft,
+                    University = user.University
                 };
                 var context = new PipelineContext()
                 {
                     Id = Guid.NewGuid().ToString(),
                     ChatId = chatId,
-                    Type = "POST",
-                    CurrentStep = "TITLE",
+                    Type = PipelineType.PostCreation,
+                    CurrentStep = PipelineStepType.Title,
                     Content = string.Empty,
                     IsCompleted = false
                 };
 
                 await _postService.AddAsync(post);
                 await _pipelineContextService.AddAsync(context);
-                //await _botClient.SendMessage(chatId, "Let's start the registration.");
                 await _pipeline.HandlePipelineAsync(context);
             }
             else

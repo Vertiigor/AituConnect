@@ -17,12 +17,13 @@ namespace AituConnectAPI.Models
         [Required]
         public DateTime JoinedDate { get; set; }
 
+        [Required]
         public Roles Role { get; set; }
     }
 
     public enum Roles
     {
-        ADMIN,
-        USER
+        Admin,
+        User
     }
 }
