@@ -6,7 +6,8 @@ namespace AituConnectAPI.Pipelines.Abstractions
     public enum PipelineType
     {
         Registration,
-        PostCreation
+        PostCreation,
+        ProfileEditing
     }
 
     public abstract class Pipeline

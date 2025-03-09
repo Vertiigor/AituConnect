@@ -10,7 +10,8 @@ namespace AituConnectAPI.Pipelines.Abstractions
         Faculty,
         Congratulation,
         Title,
-        Content
+        Content,
+        Option
     }
     public abstract class PipelineStep
     {

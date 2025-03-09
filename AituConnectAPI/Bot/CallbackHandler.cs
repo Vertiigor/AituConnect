@@ -7,7 +7,8 @@ namespace AituConnectAPI.Bot
 {
     public enum CallbackType
     {
-        ChooseUniversity
+        ChooseUniversity,
+        EditProfile
     }
     public class CallbackHandler
     {
@@ -22,6 +23,7 @@ namespace AituConnectAPI.Bot
             _handlers = new Dictionary<string, Func<CallbackQuery, Task>>
             {
                 [CallbackType.ChooseUniversity.ToString()] = async (query) => await HandleChooseUniversity(query),
+                [CallbackType.EditProfile.ToString()] = async (query) => await HandleEditProfile(query)
             };
             _pipelineContextService = pipelineContextService;
             _botClient = botClient;
@@ -75,6 +77,44 @@ namespace AituConnectAPI.Bot
             await _keyboardMarkup.RemoveKeyboardAsync(_botClient, chatId, messageId);
 
             await _messageSender.EditTestMessageAsync(chatId, messageId, $"You've selected {universityName} as your university.");
+        }
+
+        private async Task HandleEditProfile(CallbackQuery query)
+        {
+            // Logic to process profile editing
+            // Extract option (assuming format "edit_profile:Option")
+            var parts = query.Data.Split(':');
+            if (parts.Length < 2)
+            {
+                Console.WriteLine("Invalid callback data format.");
+                return;
+            }
+
+            string option = parts[1]; // Extract option from callback data
+
+            var chatId = query.Message.Chat.Id.ToString();
+            var messageId = query.Message.MessageId;
+
+            var context = await _pipelineContextService.GetByChatIdAsync(chatId);
+
+            context.Content = option;
+
+            //if (Enum.TryParse(option, out PipelineStepType stepType))
+            //{
+            //    context.Content = stepType;
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Invalid step type.");
+            //    return;
+            //}
+
+            await _pipelineContextService.UpdateAsync(context);
+
+            // Remove inline buttons after selection
+            await _keyboardMarkup.RemoveKeyboardAsync(_botClient, chatId, messageId);
+
+            await _messageSender.EditTestMessageAsync(chatId, messageId, $"You've selected {option} as your profile option.");
         }
     }
 }
