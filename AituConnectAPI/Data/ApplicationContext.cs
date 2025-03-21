@@ -10,6 +10,8 @@ namespace AituConnectAPI.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<PipelineContext> Pipelines { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
