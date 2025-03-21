@@ -33,6 +33,18 @@ namespace IntegrationTests
         }
 
         [Fact]
+        public async Task Database_Cleanup()
+        {
+            ResetDatabase();
+            var users = await _userService.GetAllAsync();
+            var pipelineContexts = await _pipelineContextService.GetAllAsync();
+            var messages = await _messageService.GetAllAsync();
+            Assert.Empty(users);
+            Assert.Empty(pipelineContexts);
+            Assert.Empty(messages);
+        }
+
+        [Fact]
         public async Task Does_Entire_Pipeline_Work_Correctly()
         {
             ResetDatabase();
