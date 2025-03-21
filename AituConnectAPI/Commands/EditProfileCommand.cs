@@ -42,7 +42,7 @@ namespace AituConnectAPI.Commands
                     Id = Guid.NewGuid().ToString(),
                     ChatId = chatId,
                     Type = PipelineType.ProfileEditing,
-                    CurrentStep = PipelineStepType.Option,
+                    CurrentStep = PipelineStepType.ChoosingOption,
                     Content = string.Empty,
                     IsCompleted = false
                 };

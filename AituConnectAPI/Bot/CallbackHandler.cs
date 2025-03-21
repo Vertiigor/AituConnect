@@ -65,7 +65,7 @@ namespace AituConnectAPI.Bot
             string universityName = parts[1]; // Extract name from callback data
 
             var chatId = query.Message.Chat.Id.ToString();
-            var messageId = query.Message.MessageId;
+            var messageId = query.Message.Id;
 
             var context = await _pipelineContextService.GetByChatIdAsync(chatId);
 
@@ -99,22 +99,12 @@ namespace AituConnectAPI.Bot
 
             context.Content = option;
 
-            //if (Enum.TryParse(option, out PipelineStepType stepType))
-            //{
-            //    context.Content = stepType;
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Invalid step type.");
-            //    return;
-            //}
-
             await _pipelineContextService.UpdateAsync(context);
 
-            // Remove inline buttons after selection
-            await _keyboardMarkup.RemoveKeyboardAsync(_botClient, chatId, messageId);
+             // Remove inline buttons after selection
+             await _keyboardMarkup.RemoveKeyboardAsync(_botClient, chatId, messageId);
 
-            await _messageSender.EditTestMessageAsync(chatId, messageId, $"You've selected {option} as your profile option.");
+             await _messageSender.EditTestMessageAsync(chatId, messageId, $"You've selected {option} as your profile option.");
         }
     }
 }

@@ -6,13 +6,14 @@ namespace AituConnectAPI.Pipelines.Abstractions
 {
     public enum PipelineStepType
     {
-        Univeristy,
-        Faculty,
+        ChoosingUniversity,
+        ChoosingFaculty,
         Congratulation,
-        Title,
-        Content,
-        Option
+        WritingTitle,
+        WritingContent,
+        ChoosingOption
     }
+
     public abstract class PipelineStep
     {
         protected readonly BotMessageSender _messageSender;

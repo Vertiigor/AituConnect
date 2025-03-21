@@ -49,7 +49,7 @@ namespace AituConnectAPI.Pipelines.Editing.Profile
 
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == PipelineStepType.Univeristy;
+            return context.CurrentStep == PipelineStepType.ChoosingUniversity;
         }
     }
 }

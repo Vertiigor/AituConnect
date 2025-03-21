@@ -24,12 +24,12 @@ namespace AituConnectAPI.Pipelines.Editing.Profile
 
                 await _pipelineContextService.UpdateAsync(context);
 
-                List<string> options = new List<string> { PipelineStepType.Univeristy.ToString(), PipelineStepType.Faculty.ToString() };
+                List<string> options = new List<string> { "University", "Faculty" };
                 List<InlineKeyboardButton> buttons = new List<InlineKeyboardButton>();
 
                 foreach (var option in options)
                 {
-                    var button = _keyboardMarkup.InitializeInlineKeyboardButton(option, $"{CallbackType.EditProfile.ToString()}:{option}");
+                    var button = _keyboardMarkup.InitializeInlineKeyboardButton(option, $"{CallbackType.EditProfile.ToString()}:Choosing{option}");
                     buttons.Add(button);
                 }
 
@@ -63,7 +63,7 @@ namespace AituConnectAPI.Pipelines.Editing.Profile
 
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == PipelineStepType.Option;
+            return context.CurrentStep == PipelineStepType.ChoosingOption;
         }
     }
 }

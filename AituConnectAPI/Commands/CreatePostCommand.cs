@@ -54,7 +54,7 @@ namespace AituConnectAPI.Commands
                     Id = Guid.NewGuid().ToString(),
                     ChatId = chatId,
                     Type = PipelineType.PostCreation,
-                    CurrentStep = PipelineStepType.Title,
+                    CurrentStep = PipelineStepType.WritingTitle,
                     Content = string.Empty,
                     IsCompleted = false
                 };

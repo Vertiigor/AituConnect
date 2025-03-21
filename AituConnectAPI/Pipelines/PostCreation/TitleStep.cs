@@ -37,7 +37,7 @@ namespace AituConnectAPI.Pipelines.PostCreation
 
                 await _postService.UpdateAsync(post);
 
-                context.CurrentStep = PipelineStepType.Content; // Move to the next step
+                context.CurrentStep = PipelineStepType.WritingContent; // Move to the next step
                 context.Content = string.Empty;
                 await _pipelineContextService.UpdateAsync(context);
             }
@@ -45,7 +45,7 @@ namespace AituConnectAPI.Pipelines.PostCreation
 
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == PipelineStepType.Title;
+            return context.CurrentStep == PipelineStepType.WritingTitle;
         }
     }
 }

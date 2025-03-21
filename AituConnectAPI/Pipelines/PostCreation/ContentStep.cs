@@ -38,13 +38,13 @@ namespace AituConnectAPI.Pipelines.PostCreation
 
                 await _postService.UpdateAsync(post);
 
-                context.CurrentStep = PipelineStepType.Content; // Move to the next step
+                context.CurrentStep = PipelineStepType.WritingContent; // Move to the next step
                 await _pipelineContextService.DeleteAsync(context.Id);
             }
         }
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == PipelineStepType.Content;
+            return context.CurrentStep == PipelineStepType.WritingContent;
         }
     }
 }

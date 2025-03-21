@@ -32,7 +32,7 @@ namespace AituConnectAPI.Pipelines.Registration
                 var keyboard = _keyboardMarkup.InitializeInlineKeyboardMarkup(buttons);
 
                 // Ask user for the title
-                await _messageSender.SendTextMessageAsync(context.ChatId, "Enter the name of university you're styding in: ", replyMarkup: keyboard);
+                await _messageSender.SendTextMessageAsync(context.ChatId, "🎓Enter the name of university you're styding in: ", replyMarkup: keyboard);
             }
             else
             {
@@ -41,7 +41,7 @@ namespace AituConnectAPI.Pipelines.Registration
                 await _userService.UpdateAsync(user);
 
                 context.StartedDate = DateTime.UtcNow;
-                context.CurrentStep = PipelineStepType.Faculty;    // Move to the next step
+                context.CurrentStep = PipelineStepType.ChoosingFaculty;    // Move to the next step
                 context.Content = string.Empty;
                 await _pipelineContextService.UpdateAsync(context);
             }
@@ -49,7 +49,7 @@ namespace AituConnectAPI.Pipelines.Registration
 
         public override bool IsApplicable(PipelineContext context)
         {
-            return context.CurrentStep == PipelineStepType.Univeristy;
+            return context.CurrentStep == PipelineStepType.ChoosingUniversity;
         }
     }
 }

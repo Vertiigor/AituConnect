@@ -54,7 +54,7 @@ namespace AituConnectAPI.Commands
                     Id = Guid.NewGuid().ToString(),
                     ChatId = chatId,
                     Type = PipelineType.Registration,
-                    CurrentStep = PipelineStepType.Univeristy,
+                    CurrentStep = PipelineStepType.ChoosingUniversity,
                     Content = string.Empty,
                     IsCompleted = false
                 };
