@@ -45,6 +45,46 @@ namespace IntegrationTests
         }
 
         [Fact]
+        public async Task Registration_Interruption()
+        {
+            ResetDatabase();
+            const string chatId = "936046085";
+            const string username = "Username";
+            
+            // Step 1: Simulate user sending /start
+            var startUpdate = new Update
+            {
+                Message = new Telegram.Bot.Types.Message
+                {
+                    Text = "/start",
+                    Chat = new Chat { Id = Convert.ToInt32(chatId), Username = username },
+                    From = new Telegram.Bot.Types.User { Id = 12345, IsBot = false }
+                }
+            };
+
+            await _botMessageHandler.HandleUpdateAsync(startUpdate);
+            
+            // Step 2: Simulate user sending /start again
+            var startUpdate2 = new Update
+            {
+                Message = new Telegram.Bot.Types.Message
+                {
+                    Text = "/start",
+                    Chat = new Chat { Id = Convert.ToInt32(chatId), Username = username },
+                    From = new Telegram.Bot.Types.User { Id = 12345, IsBot = false }
+                }
+            };
+
+            await _botMessageHandler.HandleUpdateAsync(startUpdate2);
+            
+            var messages = await _messageService.GetAllByChatIdAsync(chatId);
+            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
+            var lastMessage = sortedMessages.First();
+            
+            Assert.Equal("You are already in the middle of a process. Please, complete it first.", lastMessage.Content);
+        }
+
+        [Fact]
         public async Task Does_Entire_Pipeline_Work_Correctly()
         {
             ResetDatabase();
@@ -73,7 +113,7 @@ namespace IntegrationTests
 
 
             var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessage = messages.OrderByDescending(m => m.SentTime).ToList();
+            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
             var lastMessage = messages.First();
 
             // Step 3: Simulate user selecting a university via inline keyboard
@@ -170,7 +210,7 @@ namespace IntegrationTests
             await _botMessageHandler.HandleUpdateAsync(startUpdate);
 
             var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessage = messages.OrderByDescending(m => m.SentTime).ToList();
+            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
             var lastMessage = messages.First();
 
             Assert.Equal("You are already registered!", lastMessage.Content);
