@@ -13,6 +13,11 @@ namespace AituConnectAPI.Services.Implementations
             _postRepository = repository;
         }
 
+        public async Task<IEnumerable<Post>> GetAllByAuthorIdAsync(string authorId)
+        {
+            return await _postRepository.GetAllByAuthorIdAsync(authorId);
+        }
+
         public async Task<Post> GetByAuthorIdAsync(string authorId)
         {
             var post = await _postRepository.GetByAuthorIdAsync(authorId);

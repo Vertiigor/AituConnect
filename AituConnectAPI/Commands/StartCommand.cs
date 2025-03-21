@@ -13,13 +13,15 @@ namespace AituConnectAPI.Commands
         private readonly IUserService _userService;
         private readonly IPipelineContextService _pipelineContextService;
         private readonly PipelineHandler _pipeline;
+        private readonly BotMessageSender _messageSender;
 
-        public StartCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, PipelineHandler pipelineHandler)
+        public StartCommand(ITelegramBotClient botClient, IUserService userService, IPipelineContextService pipelineContextService, PipelineHandler pipelineHandler, BotMessageSender messageSender)
         {
             _botClient = botClient;
             _pipelineContextService = pipelineContextService;
             _userService = userService;
             _pipeline = pipelineHandler;
+            _messageSender = messageSender;
         }
 
         public bool CanHandle(string command) => command.Equals("/start", StringComparison.OrdinalIgnoreCase);
@@ -64,7 +66,7 @@ namespace AituConnectAPI.Commands
             }
             else
             {
-                await _botClient.SendMessage(chatId, "You are already registered!");
+                await _messageSender.SendTextMessageAsync(chatId, "You are already registered!");
             }
         }
     }

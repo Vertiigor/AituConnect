@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AituConnectAPI.AppHost", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AituConnectAPI.ServiceDefaults", "AituConnectAPI.ServiceDefaults\AituConnectAPI.ServiceDefaults.csproj", "{649A4B4F-66E6-49E2-A2B8-629D3718C45C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AituConnectAPI.Tests.Integration", "IntegrationTests\AituConnectAPI.Tests.Integration.csproj", "{7FFC024E-A98F-4E9A-85F6-177C522BC5C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{649A4B4F-66E6-49E2-A2B8-629D3718C45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{649A4B4F-66E6-49E2-A2B8-629D3718C45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{649A4B4F-66E6-49E2-A2B8-629D3718C45C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFC024E-A98F-4E9A-85F6-177C522BC5C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFC024E-A98F-4E9A-85F6-177C522BC5C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFC024E-A98F-4E9A-85F6-177C522BC5C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFC024E-A98F-4E9A-85F6-177C522BC5C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

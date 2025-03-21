@@ -27,7 +27,6 @@ namespace AituConnectAPI.Bot
             });
         }
 
-
         public async Task SendTextMessageAsync(string chatId, string text)
         {
             var message = await _botClient.SendMessage(chatId, text);

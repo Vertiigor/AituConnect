@@ -101,10 +101,10 @@ namespace AituConnectAPI.Bot
 
             await _pipelineContextService.UpdateAsync(context);
 
-             // Remove inline buttons after selection
-             await _keyboardMarkup.RemoveKeyboardAsync(_botClient, chatId, messageId);
+            // Remove inline buttons after selection
+            await _keyboardMarkup.RemoveKeyboardAsync(_botClient, chatId, messageId);
 
-             await _messageSender.EditTestMessageAsync(chatId, messageId, $"You've selected {option} as your profile option.");
+            await _messageSender.EditTestMessageAsync(chatId, messageId, $"You've selected {option} as your profile option.");
         }
     }
 }

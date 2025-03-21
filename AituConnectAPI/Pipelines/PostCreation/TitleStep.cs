@@ -24,7 +24,7 @@ namespace AituConnectAPI.Pipelines.PostCreation
             else
             {
                 var owner = await _userService.GetByChatIdAsync(context.ChatId);
-                var posts = await _postService.GetAllAsync();
+                var posts = await _postService.GetAllByAuthorIdAsync(owner.Id);
 
                 List<Post> sortedPosts = posts.Where(p => p.Status == PostStatus.Draft).OrderByDescending(p => p.CreationDate).ToList();
 
