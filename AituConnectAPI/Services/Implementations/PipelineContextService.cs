@@ -6,15 +6,16 @@ namespace AituConnectAPI.Services.Implementations
 {
     public class PipelineContextService : Service<PipelineContext>, IPipelineContextService
     {
-        private readonly IPipelineContextRepository _repository;
+        private readonly IPipelineContextRepository _pipelineRepository;
+
         public PipelineContextService(IPipelineContextRepository repository) : base(repository)
         {
-            _repository = repository;
+            _pipelineRepository = repository;
         }
 
         public async Task<PipelineContext> GetByChatIdAsync(string chatId)
         {
-            var pipeline = await _repository.GetByChatIdAsync(chatId);
+            var pipeline = await _pipelineRepository.GetByChatIdAsync(chatId);
             if (pipeline == null)
             {
                 return null;

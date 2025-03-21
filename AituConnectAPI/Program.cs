@@ -40,9 +40,11 @@ public class Program
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IPostService, PostService>();
         builder.Services.AddScoped<IPipelineContextService, PipelineContextService>();
+        builder.Services.AddScoped<IMessageService, MessageService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IPostRepository, PostRepository>();
         builder.Services.AddScoped<IPipelineContextRepository, PipelineContextRepository>();
+        builder.Services.AddScoped<IMessageRepository, MessageRepository>();
         builder.Services.AddScoped<CallbackHandler>();
         builder.Services.AddScoped<PipelineHandler>();
         builder.Services.AddScoped<KeyboardMarkupBuilder>();

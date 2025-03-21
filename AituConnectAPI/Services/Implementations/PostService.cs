@@ -6,15 +6,16 @@ namespace AituConnectAPI.Services.Implementations
 {
     public class PostService : Service<Post>, IPostService
     {
-        private readonly IPostRepository _repository;
+        private readonly IPostRepository _postRepository;
+
         public PostService(IPostRepository repository) : base(repository)
         {
-            _repository = repository;
+            _postRepository = repository;
         }
 
         public async Task<Post> GetByAuthorIdAsync(string authorId)
         {
-            var post = await _repository.GetByAuthorIdAsync(authorId);
+            var post = await _postRepository.GetByAuthorIdAsync(authorId);
             if (post == null)
             {
                 return null;
