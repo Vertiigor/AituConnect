@@ -12,5 +12,10 @@ namespace AituConnectAPI.Services.Implementations
         {
             _messageRepository = repository;
         }
+
+        public async Task<IEnumerable<Message>> GetAllByChatIdAsync(string chatId)
+        {
+            return await _messageRepository.GetAllByChatIdAsync(chatId);
+        }
     }
 }
