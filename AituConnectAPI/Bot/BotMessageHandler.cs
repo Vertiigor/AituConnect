@@ -11,27 +11,39 @@ namespace AituConnectAPI.Bot
         private readonly IUserService _userService;
         private readonly CallbackHandler _callbackHandler;
         private readonly PipelineHandler _pipeline;
+        private readonly BotMessageSender _messageSender;
 
-        public BotMessageHandler(IServiceScopeFactory scopeFactory, IPipelineContextService pipelineContextService, IUserService userService, CallbackHandler callbackHandler, PipelineHandler pipelineHandler)
+        public BotMessageHandler(IServiceScopeFactory scopeFactory, IPipelineContextService pipelineContextService, IUserService userService, CallbackHandler callbackHandler, PipelineHandler pipelineHandler, BotMessageSender messageSender)
         {
             _scopeFactory = scopeFactory;
             _pipelineContextService = pipelineContextService;
             _userService = userService;
             _callbackHandler = callbackHandler;
             _pipeline = pipelineHandler;
+            _messageSender = messageSender;
         }
 
         public async Task HandleUpdateAsync(Update update)
         {
+            if (update.Message == null) return;
+
+            var chatId = update.Message.Chat.Id.ToString();
+            var context = await _pipelineContextService.GetByChatIdAsync(chatId);
+
+            bool isCommand = update.Message.Text.StartsWith("/");
+
+            if (context != null && isCommand)
+            {
+                await _messageSender.SendTextMessageAsync(chatId, "You are already in the middle of a process. Please, complete it first.");
+                return;
+            }
+
             using var scope = _scopeFactory.CreateScope();
             var dispatcher = scope.ServiceProvider.GetRequiredService<CommandDispatcher>();
             await dispatcher.DispatchAsync(update);
         }
 
-        private async Task OnCallbackQueryReceived(CallbackQuery query)
-        {
-            await _callbackHandler.HandleCallbackAsync(query);
-        }
+        private async Task OnCallbackQueryReceived(CallbackQuery query) => await _callbackHandler.HandleCallbackAsync(query);
 
 
         public async Task HandleMessageAsync(Update update)
@@ -47,8 +59,10 @@ namespace AituConnectAPI.Bot
 
             if (context == null) return;
 
+            bool isCommand = update.Message.Text.StartsWith("/");
+
             // Ignore commands
-            if (update.Message.Text.StartsWith("/"))
+            if (isCommand)
             {
                 return;
             }
