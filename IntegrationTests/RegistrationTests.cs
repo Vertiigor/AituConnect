@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 
 namespace IntegrationTests
 {
-    public class RegistrationPipelineTests : IClassFixture<TestFixture>
+    public class RegistrationTests : IClassFixture<TestFixture>
     {
         private readonly ApplicationContext _dbContext;
         private readonly ServiceProvider _serviceProvider;
@@ -16,7 +16,7 @@ namespace IntegrationTests
         private readonly IPipelineContextService _pipelineContextService;
         private readonly IMessageService _messageService;
 
-        public RegistrationPipelineTests(TestFixture fixture)
+        public RegistrationTests(TestFixture fixture)
         {
             _serviceProvider = fixture.ServiceProvider;
             _botMessageHandler = _serviceProvider.GetRequiredService<BotMessageHandler>();

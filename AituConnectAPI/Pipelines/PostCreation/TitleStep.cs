@@ -23,6 +23,12 @@ namespace AituConnectAPI.Pipelines.PostCreation
             }
             else
             {
+                if (context.Content.Length > 100)
+                {
+                    await _messageSender.SendTextMessageAsync(context.ChatId, "Title is too long. It has to be less than 100 characters. Please, enter a shorter title: ");
+                    return;
+                }
+
                 var owner = await _userService.GetByChatIdAsync(context.ChatId);
                 var posts = await _postService.GetAllByAuthorIdAsync(owner.Id);
 
