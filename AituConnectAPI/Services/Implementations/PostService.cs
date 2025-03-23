@@ -40,7 +40,7 @@ namespace AituConnectAPI.Services.Implementations
             return sortedPosts.First();
         }
 
-        public async Task<Post> GetLastPublisherByAuthorIdAsync(string authorId)
+        public async Task<Post> GetLastPublishedByAuthorIdAsync(string authorId)
         {
             var posts = await GetAllByAuthorIdAsync(authorId);
             var sortedPosts = posts.Where(p => p.Status == PostStatus.Published).OrderByDescending(p => p.CreationDate).ToList();

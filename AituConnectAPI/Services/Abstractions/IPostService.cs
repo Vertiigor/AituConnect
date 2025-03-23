@@ -7,6 +7,6 @@ namespace AituConnectAPI.Services.Abstractions
         public Task<Post> GetByAuthorIdAsync(string authorId);
         public Task<IEnumerable<Post>> GetAllByAuthorIdAsync(string authorId);
         public Task<Post> GetLastDraftByAuthorIdAsync(string authorId);
-        public Task<Post> GetLastPublisherByAuthorIdAsync(string authorId);
+        public Task<Post> GetLastPublishedByAuthorIdAsync(string authorId);
     }
 }

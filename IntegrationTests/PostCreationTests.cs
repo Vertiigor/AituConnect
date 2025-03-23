@@ -117,7 +117,7 @@ namespace IntegrationTests
             await _botMessageHandler.HandleMessageAsync(contentUpdate);
 
             var user = await _userService.GetByChatIdAsync(chatId);
-            var lastPost = await _postService.GetLastPublisherByAuthorIdAsync(user.Id);
+            var lastPost = await _postService.GetLastPublishedByAuthorIdAsync(user.Id);
 
             Assert.NotNull(user);
             Assert.Equal(title, lastPost.Title);
