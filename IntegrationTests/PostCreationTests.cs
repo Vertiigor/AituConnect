@@ -154,9 +154,7 @@ namespace IntegrationTests
 
             var user = await _userService.GetByChatIdAsync(chatId);
 
-            var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
-            var lastMessage = messages.First();
+            var lastMessage = await _messageService.GetLastByChatIdAsync(chatId);
 
             Assert.Null(user);
             Assert.Equal("You are not registered. Please, use /start command to register.", lastMessage.Content);
@@ -198,9 +196,7 @@ namespace IntegrationTests
 
             await _botMessageHandler.HandleUpdateAsync(createPostUpdate2);
 
-            var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
-            var lastMessage = sortedMessages.First();
+            var lastMessage = await _messageService.GetLastByChatIdAsync(chatId);
 
             Assert.Equal("You are already in the middle of a process. Please, complete it first.", lastMessage.Content);
         }
@@ -345,9 +341,7 @@ namespace IntegrationTests
 
             await _botMessageHandler.HandleMessageAsync(titleUpdate);
 
-            var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
-            var lastMessage = sortedMessages.First();
+            var lastMessage = await _messageService.GetLastByChatIdAsync(chatId);
 
             Assert.Equal("Title is too long. It has to be less than 100 characters. Please, enter a shorter title: ", lastMessage.Content);
         }
@@ -454,9 +448,7 @@ namespace IntegrationTests
 
             await _botMessageHandler.HandleMessageAsync(contentUpdate);
 
-            var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
-            var lastMessage = sortedMessages.First();
+            var lastMessage = await _messageService.GetLastByChatIdAsync(chatId);
 
             Assert.Equal("Content is too long. It has to be less than 1000 characters. Please, enter a shorter content: ", lastMessage.Content);
         }

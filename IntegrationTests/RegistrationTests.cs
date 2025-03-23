@@ -77,10 +77,8 @@ namespace IntegrationTests
 
             await _botMessageHandler.HandleUpdateAsync(startUpdate2);
             
-            var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
-            var lastMessage = sortedMessages.First();
-            
+            var lastMessage = await _messageService.GetLastByChatIdAsync(chatId);
+
             Assert.Equal("You are already in the middle of a process. Please, complete it first.", lastMessage.Content);
         }
 
@@ -111,10 +109,7 @@ namespace IntegrationTests
             Assert.NotNull(pipelineContext);
             Assert.Equal("ChoosingUniversity", pipelineContext.CurrentStep.ToString()); // Ensure step is correctly set
 
-
-            var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
-            var lastMessage = messages.First();
+            var lastMessage = await _messageService.GetLastByChatIdAsync(chatId);
 
             // Step 3: Simulate user selecting a university via inline keyboard
             var callbackQuery = new CallbackQuery
@@ -209,9 +204,7 @@ namespace IntegrationTests
 
             await _botMessageHandler.HandleUpdateAsync(startUpdate);
 
-            var messages = await _messageService.GetAllByChatIdAsync(chatId);
-            var sortedMessages = messages.OrderByDescending(m => m.SentTime).ToList();
-            var lastMessage = messages.First();
+            var lastMessage = await _messageService.GetLastByChatIdAsync(chatId);
 
             Assert.Equal("You are already registered!", lastMessage.Content);
         }
