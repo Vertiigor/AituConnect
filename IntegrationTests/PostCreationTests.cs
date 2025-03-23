@@ -2,7 +2,6 @@
 using AituConnectAPI.Data;
 using AituConnectAPI.Models;
 using AituConnectAPI.Services.Abstractions;
-using IntegrationTests;
 using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bot.Types;
 

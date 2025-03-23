@@ -50,7 +50,7 @@ namespace IntegrationTests
             ResetDatabase();
             const string chatId = "936046085";
             const string username = "Username";
-            
+
             // Step 1: Simulate user sending /start
             var startUpdate = new Update
             {
@@ -63,7 +63,7 @@ namespace IntegrationTests
             };
 
             await _botMessageHandler.HandleUpdateAsync(startUpdate);
-            
+
             // Step 2: Simulate user sending /start again
             var startUpdate2 = new Update
             {
@@ -76,7 +76,7 @@ namespace IntegrationTests
             };
 
             await _botMessageHandler.HandleUpdateAsync(startUpdate2);
-            
+
             var lastMessage = await _messageService.GetLastByChatIdAsync(chatId);
 
             Assert.Equal("You are already in the middle of a process. Please, complete it first.", lastMessage.Content);
