@@ -30,14 +30,10 @@ namespace AituConnectAPI.Pipelines.PostCreation
                 }
 
                 var owner = await _userService.GetByChatIdAsync(context.ChatId);
-                var posts = await _postService.GetAllByAuthorIdAsync(owner.Id);
+                var post = await _postService.GetLastDraftByAuthorIdAsync(owner.Id);
 
-                List<Post> sortedPosts = posts.Where(p => p.Status == PostStatus.Draft).OrderByDescending(p => p.CreationDate).ToList();
-
-                if (sortedPosts.Count == 0)
+                if (post == null)
                     return;
-
-                var post = sortedPosts.First();
 
                 post.Content = context.Content;
                 post.Status = PostStatus.Published;

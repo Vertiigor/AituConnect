@@ -28,5 +28,27 @@ namespace AituConnectAPI.Services.Implementations
 
             return post;
         }
+
+        public async Task<Post> GetLastDraftByAuthorIdAsync(string authorId)
+        {
+            var posts = await GetAllByAuthorIdAsync(authorId);
+            var sortedPosts = posts.Where(p => p.Status == PostStatus.Draft).OrderByDescending(p => p.CreationDate).ToList();
+
+            if (sortedPosts.Count == 0)
+                return null;
+
+            return sortedPosts.First();
+        }
+
+        public async Task<Post> GetLastPublisherByAuthorIdAsync(string authorId)
+        {
+            var posts = await GetAllByAuthorIdAsync(authorId);
+            var sortedPosts = posts.Where(p => p.Status == PostStatus.Published).OrderByDescending(p => p.CreationDate).ToList();
+
+            if (sortedPosts.Count == 0)
+                return null;
+
+            return sortedPosts.First();
+        }
     }
 }
