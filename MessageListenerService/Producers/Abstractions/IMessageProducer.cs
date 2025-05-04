@@ -1,4 +1,6 @@
-﻿namespace MessageListenerService.Producers.Abstractions
+﻿using MessageListenerService.Contracts;
+
+namespace MessageListenerService.Producers.Abstractions
 {
     public interface IMessageProducer
     {
@@ -10,6 +12,7 @@
             bool exlusive = false,
             bool autoDelete = false,
             Dictionary<string, object?> arguments = null,
-            string exchange = "");
+            string exchange = "")
+            where T : IMessagePayload;
     }
 }

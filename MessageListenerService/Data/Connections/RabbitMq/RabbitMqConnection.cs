@@ -19,7 +19,7 @@ namespace MessageListenerService.Data.Connections.RabbitMq
         {
             var factory = new ConnectionFactory
             {
-                HostName = $"{_settings.Host}:{_settings.Port}",
+                HostName = $"{_settings.Host}",
                 Port = _settings.Port,
                 UserName = _settings.UserName,
                 Password = _settings.Password

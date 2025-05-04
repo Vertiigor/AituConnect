@@ -25,6 +25,7 @@ namespace MessageListenerService.Producers.Implementations
             bool autoDelete = false,
             Dictionary<string, object?> arguments = null,
             string exchange = "")
+            where T : IMessagePayload
         {
             var connection = await _connection.GetConnectionAsync();
             var channel = await connection.CreateChannelAsync();
@@ -35,7 +36,7 @@ namespace MessageListenerService.Producers.Implementations
                                      autoDelete: autoDelete,
                                      arguments: arguments);
 
-            var envelope = new MessageEnvelope
+            var envelope = new MessageEnvelope<T>
             {
                 EventType = eventType,
                 Payload = payload

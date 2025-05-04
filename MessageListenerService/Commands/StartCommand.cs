@@ -1,4 +1,5 @@
-﻿using MessageListenerService.Models;
+﻿using MessageListenerService.Contracts;
+using MessageListenerService.Models;
 using MessageListenerService.Producers.Abstractions;
 using MessageListenerService.Services;
 using Telegram.Bot.Types;
@@ -41,7 +42,15 @@ namespace MessageListenerService.Commands
 
                 await _userSessionService.SetSessionAsync(session);
 
+                var payload = new RegistrationContract
+                {
+                    ChatId = chatId,
+                    University = string.Empty,
+                    Major = string.Empty
+                };
 
+                // Send the message to the producer
+                await _producer.PublishMessageAsync("ChoosingUniversity", payload, "user.registration");
 
                 Console.WriteLine($"User {username} started the registration process.");
             }
