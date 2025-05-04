@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AituConnectAPI\AituConnectAPI.csproj" />
     <ProjectReference Include="..\MessageListenerService\MessageListenerService.csproj" />
+    <ProjectReference Include="..\MessageProducerService\MessageProducerService.csproj" />
   </ItemGroup>
 
 </Project>

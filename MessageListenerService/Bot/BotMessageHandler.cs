@@ -1,14 +1,20 @@
-﻿using Telegram.Bot.Types;
+﻿using MessageListenerService.Bot;
+using MessageListenerService.Services;
+using Telegram.Bot.Types;
 
 namespace AituConnectAPI.Bot
 {
     public class BotMessageHandler
     {
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly UserSessionService _userSessionService;
+        private readonly HandlerRouter _handlerRouter;
 
-        public BotMessageHandler(IServiceScopeFactory scopeFactory)
+        public BotMessageHandler(IServiceScopeFactory scopeFactory, UserSessionService userSessionService, HandlerRouter handlerRouter)
         {
             _scopeFactory = scopeFactory;
+            _userSessionService = userSessionService;
+            _handlerRouter = handlerRouter;
         }
 
         public async Task HandleUpdateAsync(Update update)
@@ -38,6 +44,28 @@ namespace AituConnectAPI.Bot
             await HandleUpdateAsync(update);
 
             Console.WriteLine(update.Message?.Text);
+
+            var chatId = update.Message?.Chat.Id.ToString();
+            var message = update.Message?.Text;
+
+            if (update.Message.Text.StartsWith("/") || update.Message == null) return;
+
+            var session = await _userSessionService.GetSessionAsync(chatId);
+
+            if (session == null) return;
+
+            var key = (session.CurrentPipeline, session.CurrentStep);
+
+            _handlerRouter.TryGetValue(key, out var handler);
+
+            if (handler != null)
+            {
+                await handler.HandleAsync(session, message);
+            }
+            else
+            {
+                Console.WriteLine($"No handler found for pipeline: {session.CurrentPipeline}, step: {session.CurrentStep}");
+            }
         }
     }
 }

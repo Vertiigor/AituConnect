@@ -37,7 +37,7 @@ namespace MessageListenerService.Commands
                 {
                     ChatId = chatId,
                     CurrentPipeline = "Registration",
-                    CurrentStep = "ChoosingUniversity",
+                    CurrentStep = "ChoosingMajor",
                 };
 
                 await _userSessionService.SetSessionAsync(session);
@@ -51,7 +51,7 @@ namespace MessageListenerService.Commands
 
                 // Send the message to the producer
                 await _producer.PublishMessageAsync(
-                    eventType: "ChoosingUniversity",
+                    eventType: "StartCommand",
                     payload: payload,
                     exchange: "aituBot.exchange",
                     routingKey: "user.registration"

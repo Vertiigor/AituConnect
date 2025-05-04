@@ -1,4 +1,5 @@
 using AituConnectAPI.Bot;
+using MessageListenerService.Bot;
 using MessageListenerService.Commands;
 using MessageListenerService.Data.Connections.RabbitMq;
 using MessageListenerService.Data.Connections.Redis;
@@ -6,6 +7,8 @@ using MessageListenerService.Data.Settings;
 using MessageListenerService.Producers.Abstractions;
 using MessageListenerService.Producers.Implementations;
 using MessageListenerService.Services;
+using MessageListenerService.StepHandlers.Abstractions;
+using MessageListenerService.StepHandlers.Implementations.Registration;
 using Telegram.Bot;
 
 namespace MessageListenerService;
@@ -36,6 +39,9 @@ public class Program
         builder.Services.AddScoped<CommandDispatcher>();
         builder.Services.AddScoped<BotMessageHandler>();
         builder.Services.AddSingleton<BotClient>();
+        builder.Services.AddScoped<HandlerRouter>();
+
+        builder.Services.AddScoped<StepHandler, MajorStepHandler>();
 
         // Register the command handler
         builder.Services.AddScoped<ICommand, StartCommand>();

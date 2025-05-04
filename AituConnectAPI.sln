@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AituConnectAPI.Tests.Integr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageListenerService", "MessageListenerService\MessageListenerService.csproj", "{D1386078-93F9-D303-EE8A-2D8ED30E2044}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageProducerService", "MessageProducerService\MessageProducerService.csproj", "{4FE95A24-4FFA-D080-4A4A-E290C5B75C56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D1386078-93F9-D303-EE8A-2D8ED30E2044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1386078-93F9-D303-EE8A-2D8ED30E2044}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1386078-93F9-D303-EE8A-2D8ED30E2044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FE95A24-4FFA-D080-4A4A-E290C5B75C56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE95A24-4FFA-D080-4A4A-E290C5B75C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE95A24-4FFA-D080-4A4A-E290C5B75C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE95A24-4FFA-D080-4A4A-E290C5B75C56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
