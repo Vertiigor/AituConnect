@@ -7,12 +7,10 @@ namespace MessageListenerService.Producers.Abstractions
         public Task PublishMessageAsync<T>(
             string eventType,
             T payload,
-            string queue,
-            bool durable = false,
-            bool exlusive = false,
-            bool autoDelete = false,
-            Dictionary<string, object?> arguments = null,
-            string exchange = "")
+            string exchange = "",
+            string routingKey = "",
+            bool durable = true,
+            Dictionary<string, object?> arguments = null)
             where T : IMessagePayload;
     }
 }

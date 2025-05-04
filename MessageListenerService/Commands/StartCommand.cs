@@ -50,7 +50,12 @@ namespace MessageListenerService.Commands
                 };
 
                 // Send the message to the producer
-                await _producer.PublishMessageAsync("ChoosingUniversity", payload, "user.registration");
+                await _producer.PublishMessageAsync(
+                    eventType: "ChoosingUniversity",
+                    payload: payload,
+                    exchange: "aituBot.exchange",
+                    routingKey: "user.registration"
+                    );
 
                 Console.WriteLine($"User {username} started the registration process.");
             }

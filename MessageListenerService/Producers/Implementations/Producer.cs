@@ -19,23 +19,19 @@ namespace MessageListenerService.Producers.Implementations
         public async Task PublishMessageAsync<T>(
             string eventType,
             T payload,
-            string queue,
-            bool durable = false,
-            bool exlusive = false,
-            bool autoDelete = false,
-            Dictionary<string, object?> arguments = null,
-            string exchange = "")
+            string exchange = "",
+            string routingKey = "",
+            bool durable = true,
+            Dictionary<string, object?> arguments = null)
             where T : IMessagePayload
         {
             var connection = await _connection.GetConnectionAsync();
             var channel = await connection.CreateChannelAsync();
 
-            await channel.QueueDeclareAsync(queue: queue,
-                                     durable: durable,
-                                     exclusive: exlusive,
-                                     autoDelete: autoDelete,
-                                     arguments: arguments);
+            // Declare the topic exchange if not already declared
+            await channel.ExchangeDeclareAsync(exchange, ExchangeType.Topic, durable: true);
 
+            // Prepare the message
             var envelope = new MessageEnvelope<T>
             {
                 EventType = eventType,
@@ -45,9 +41,12 @@ namespace MessageListenerService.Producers.Implementations
             var json = JsonSerializer.Serialize(envelope);
             var body = Encoding.UTF8.GetBytes(json);
 
-            await channel.BasicPublishAsync(exchange: exchange,
-                routingKey: queue,
+            // Publish the message using routing key
+            await channel.BasicPublishAsync(
+                exchange: exchange,
+                routingKey: routingKey, // e.g., "user.registration"
                 body: body);
+
         }
     }
 }
