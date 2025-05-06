@@ -18,6 +18,6 @@ namespace MessageListenerService.StepHandlers.Abstractions
             _userSessionService = userSessionService;
         }
 
-        public abstract Task HandleAsync(UserSession session, string userInput);
+        public abstract Task HandleAsync(UserSession session, string userInput, string messageId);
     }
 }

@@ -23,7 +23,16 @@ namespace AituConnectAPI.Bot
 
                     if (update.CallbackQuery != null)
                     {
-                        update.Message = update.CallbackQuery.Message;
+                        update.Message = new Telegram.Bot.Types.Message
+                        {
+                            Chat = update.CallbackQuery.Message.Chat,
+                            From = update.CallbackQuery.From,
+                            Text = update.CallbackQuery.Data,
+                            Id = update.CallbackQuery.Message.MessageId,
+                        };
+
+                        update.Message.Text = update.CallbackQuery.Data;
+                        Console.WriteLine(update.CallbackQuery.Message.Text);
                     }
 
                     await handler.HandleMessageAsync(update);

@@ -47,6 +47,7 @@ namespace AituConnectAPI.Bot
 
             var chatId = update.Message?.Chat.Id.ToString();
             var message = update.Message?.Text;
+            var messageId = Convert.ToString(update.Message?.Id);
 
             if (update.Message.Text.StartsWith("/") || update.Message == null) return;
 
@@ -60,7 +61,7 @@ namespace AituConnectAPI.Bot
 
             if (handler != null)
             {
-                await handler.HandleAsync(session, message);
+                await handler.HandleAsync(session, message, messageId);
             }
             else
             {

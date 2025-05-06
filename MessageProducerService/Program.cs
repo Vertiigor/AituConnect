@@ -3,6 +3,7 @@ using MessageProducerService.Consumers;
 using MessageProducerService.Data;
 using MessageProducerService.Data.Connections.RabbitMq;
 using MessageProducerService.Data.Settings;
+using MessageProducerService.Keyboards;
 using MessageProducerService.Models;
 using MessageProducerService.Repositories.Abstractions;
 using MessageProducerService.Repositories.Implementations;
@@ -44,8 +45,10 @@ public class Program
 
         builder.Services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(botApiToken));
         builder.Services.AddScoped<BotMessageSender>();
+        builder.Services.AddScoped<KeyboardMarkupBuilder>();
         builder.Services.AddScoped<StepHandler, StartStepHandler>();
         builder.Services.AddScoped<StepHandler, MajorStepHandler>();
+        builder.Services.AddScoped<StepHandler, UniversityStepHandler>();
 
         // Register the message consumer
         builder.Services.AddHostedService<UserQueueConsumer>();

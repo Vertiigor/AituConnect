@@ -42,6 +42,7 @@ public class Program
         builder.Services.AddScoped<HandlerRouter>();
 
         builder.Services.AddScoped<StepHandler, MajorStepHandler>();
+        builder.Services.AddScoped<StepHandler, UniversityStepHandler>();
 
         // Register the command handler
         builder.Services.AddScoped<ICommand, StartCommand>();

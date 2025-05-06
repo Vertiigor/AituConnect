@@ -4,6 +4,6 @@ namespace MessageListenerService.StepHandlers.Abstractions
 {
     public interface IStepHandler
     {
-        Task HandleAsync(UserSession session, string userInput);
+        Task HandleAsync(UserSession session, string userInput, string messageId);
     }
 }
