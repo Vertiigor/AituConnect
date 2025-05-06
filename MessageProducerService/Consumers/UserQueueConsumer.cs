@@ -11,9 +11,9 @@ namespace MessageProducerService.Consumers
             _rabbitMqConnection = rabbitMqConnection;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

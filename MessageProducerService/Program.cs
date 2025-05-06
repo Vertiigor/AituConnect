@@ -1,6 +1,10 @@
 using MessageProducerService.Consumers;
+using MessageProducerService.Data;
 using MessageProducerService.Data.Connections.RabbitMq;
 using MessageProducerService.Data.Settings;
+using MessageProducerService.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace MessageProducerService;
 
@@ -9,6 +13,14 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddDbContext<ApplicationContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseContext") ?? throw new InvalidOperationException("Connection string 'BookStoreContext' not found.")));
+
+        // Configure Identity to use the custom ApplicationUser model
+        builder.Services.AddIdentity<User, IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationContext>()
+        .AddDefaultTokenProviders();
 
         builder.AddServiceDefaults();
 
