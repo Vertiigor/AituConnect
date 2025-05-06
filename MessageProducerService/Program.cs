@@ -1,10 +1,19 @@
+using MessageProducerService.Bot;
 using MessageProducerService.Consumers;
 using MessageProducerService.Data;
 using MessageProducerService.Data.Connections.RabbitMq;
 using MessageProducerService.Data.Settings;
 using MessageProducerService.Models;
+using MessageProducerService.Repositories.Abstractions;
+using MessageProducerService.Repositories.Implementations;
+using MessageProducerService.Services;
+using MessageProducerService.Services.Abstractions;
+using MessageProducerService.Services.Implementations;
+using MessageProducerService.StepHandlers.Abstractions;
+using MessageProducerService.StepHandlers.Implementations.Registration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Telegram.Bot;
 
 namespace MessageProducerService;
 
@@ -16,6 +25,9 @@ public class Program
 
         builder.Services.AddDbContext<ApplicationContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseContext") ?? throw new InvalidOperationException("Connection string 'BookStoreContext' not found.")));
+
+        var botApiToken = builder.Configuration["BotConnection:ApiToken"]
+            ?? throw new InvalidOperationException("API token 'BotConnection:ApiToken' not found.");
 
         // Configure Identity to use the custom ApplicationUser model
         builder.Services.AddIdentity<User, IdentityRole>()
@@ -30,8 +42,18 @@ public class Program
         builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection("RabbitMq"));
         builder.Services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
 
+        builder.Services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(botApiToken));
+        builder.Services.AddScoped<BotMessageSender>();
+        builder.Services.AddScoped<StepHandler, StartStepHandler>();
+        builder.Services.AddScoped<StepHandler, MajorStepHandler>();
+
         // Register the message consumer
         builder.Services.AddHostedService<UserQueueConsumer>();
+
+        builder.Services.AddScoped<HandlerRouter>();
+
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IUserService, UserService>();
 
         builder.Services.AddControllers();
 

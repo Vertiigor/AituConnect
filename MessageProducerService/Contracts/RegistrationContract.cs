@@ -1,4 +1,4 @@
-﻿namespace MessageListenerService.Contracts
+﻿namespace MessageProducerService.Contracts
 {
     public class RegistrationContract : IMessagePayload
     {

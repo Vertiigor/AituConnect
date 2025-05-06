@@ -21,6 +21,7 @@ namespace MessageListenerService.StepHandlers.Implementations.Registration
             var payload = new RegistrationContract
             {
                 ChatId = session.ChatId,
+                UserName = session.Username,
                 University = string.Empty,
                 Major = userInput
             };

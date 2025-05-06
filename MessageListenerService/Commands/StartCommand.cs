@@ -36,6 +36,7 @@ namespace MessageListenerService.Commands
                 session = new UserSession
                 {
                     ChatId = chatId,
+                    Username = username,
                     CurrentPipeline = "Registration",
                     CurrentStep = "ChoosingMajor",
                 };
