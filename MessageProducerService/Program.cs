@@ -11,6 +11,7 @@ using MessageProducerService.Services;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.Services.Implementations;
 using MessageProducerService.StepHandlers.Abstractions;
+using MessageProducerService.StepHandlers.Implementations.ProfileEditing;
 using MessageProducerService.StepHandlers.Implementations.Registration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -46,9 +47,15 @@ public class Program
         builder.Services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(botApiToken));
         builder.Services.AddScoped<BotMessageSender>();
         builder.Services.AddScoped<KeyboardMarkupBuilder>();
-        builder.Services.AddScoped<StepHandler, StartStepHandler>();
+
+        builder.Services.AddScoped<StepHandler, StartCommandHandler>();
         builder.Services.AddScoped<StepHandler, MajorStepHandler>();
         builder.Services.AddScoped<StepHandler, UniversityStepHandler>();
+
+        builder.Services.AddScoped<StepHandler, EditProfileCommandHandler>();
+        builder.Services.AddScoped<StepHandler, EditMajorStepHandler>();
+        builder.Services.AddScoped<StepHandler, EditUniversityStepHandler>();
+        builder.Services.AddScoped<StepHandler, EditInputStepHandler>();
 
         // Register the message consumer
         builder.Services.AddHostedService<UserQueueConsumer>();

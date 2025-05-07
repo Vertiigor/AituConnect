@@ -6,12 +6,12 @@ using MessageProducerService.StepHandlers.Abstractions;
 
 namespace MessageProducerService.StepHandlers.Implementations.Registration
 {
-    public class StartStepHandler : StepHandler
+    public class StartCommandHandler : StepHandler
     {
         private readonly IUserService _userService;
         private readonly BotMessageSender _botMessageSender;
 
-        public StartStepHandler(IUserService userService, BotMessageSender botMessageSender)
+        public StartCommandHandler(IUserService userService, BotMessageSender botMessageSender)
         {
             _userService = userService;
             _botMessageSender = botMessageSender;

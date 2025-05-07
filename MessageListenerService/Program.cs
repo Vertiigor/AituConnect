@@ -1,14 +1,21 @@
 using AituConnectAPI.Bot;
 using MessageListenerService.Bot;
 using MessageListenerService.Commands;
+using MessageListenerService.Data;
 using MessageListenerService.Data.Connections.RabbitMq;
 using MessageListenerService.Data.Connections.Redis;
 using MessageListenerService.Data.Settings;
 using MessageListenerService.Producers.Abstractions;
 using MessageListenerService.Producers.Implementations;
+using MessageListenerService.Repositories.Abstractions;
+using MessageListenerService.Repositories.Implementations;
 using MessageListenerService.Services;
+using MessageListenerService.Services.Abstractions;
+using MessageListenerService.Services.Implementations;
 using MessageListenerService.StepHandlers.Abstractions;
+using MessageListenerService.StepHandlers.Implementations.ProfileEditing;
 using MessageListenerService.StepHandlers.Implementations.Registration;
+using Microsoft.EntityFrameworkCore;
 using Telegram.Bot;
 
 namespace MessageListenerService;
@@ -18,6 +25,9 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddDbContext<ApplicationContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseContext") ?? throw new InvalidOperationException("Connection string 'BookStoreContext' not found.")));
 
         var botApiToken = builder.Configuration["BotConnection:ApiToken"]
             ?? throw new InvalidOperationException("API token 'BotConnection:ApiToken' not found.");
@@ -44,8 +54,16 @@ public class Program
         builder.Services.AddScoped<StepHandler, MajorStepHandler>();
         builder.Services.AddScoped<StepHandler, UniversityStepHandler>();
 
+        builder.Services.AddScoped<StepHandler, OptionStepHandler>();
+        builder.Services.AddScoped<StepHandler, EditMajorStepHandler>();
+        builder.Services.AddScoped<StepHandler, EditUniversityStepHandler>();
+
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IUserService, UserService>();
+
         // Register the command handler
         builder.Services.AddScoped<ICommand, StartCommand>();
+        builder.Services.AddScoped<ICommand, EditProfileCommand>();
 
         // Register the services
         builder.Services.AddScoped<UserSessionService>();
