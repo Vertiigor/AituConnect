@@ -7,21 +7,20 @@ using Telegram.Bot.Types;
 
 namespace MessageListenerService.Commands
 {
-    public class StartCommand : ICommand
+    public class CreatePostCommand : ICommand
     {
         private readonly UserSessionService _userSessionService;
         private readonly IMessageProducer _producer;
         private readonly IUserService _userService;
 
-        public StartCommand(IMessageProducer producer, UserSessionService userSessionService, IUserService userService)
+        public CreatePostCommand(IMessageProducer producer, UserSessionService userSessionService, IUserService userService)
         {
             _producer = producer;
             _userSessionService = userSessionService;
             _userService = userService;
         }
 
-        public bool CanHandle(string command) => command.Equals("/start", StringComparison.OrdinalIgnoreCase);
-
+        public bool CanHandle(string command) => command.Equals("/create_post", StringComparison.OrdinalIgnoreCase);
 
         public async Task HandleAsync(Update update)
         {
@@ -30,18 +29,16 @@ namespace MessageListenerService.Commands
             var chatId = update.Message.Chat.Id.ToString();
             var username = update.Message.Chat.Username ?? "Unknown";
 
-            var session = await _userSessionService.GetSessionAsync(chatId);
-
             var exist = await _userService.DoesUserExist(chatId);
 
-            if (!exist)
+            if (exist)
             {
-                session = new UserSession
+                var session = new UserSession
                 {
                     ChatId = chatId,
                     Username = username,
-                    CurrentPipeline = "Registration",
-                    CurrentStep = "ChoosingMajor",
+                    CurrentPipeline = "PostCreation",
+                    CurrentStep = "TypingTitle",
                 };
 
                 await _userSessionService.SetSessionAsync(session);

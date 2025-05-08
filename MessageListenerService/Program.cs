@@ -64,6 +64,7 @@ public class Program
         // Register the command handler
         builder.Services.AddScoped<ICommand, StartCommand>();
         builder.Services.AddScoped<ICommand, EditProfileCommand>();
+        builder.Services.AddScoped<ICommand, CreatePostCommand>();
 
         // Register the services
         builder.Services.AddScoped<UserSessionService>();
