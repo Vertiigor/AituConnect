@@ -12,6 +12,7 @@ using MessageProducerService.Services.Abstractions;
 using MessageProducerService.Services.Implementations;
 using MessageProducerService.StepHandlers.Abstractions;
 using MessageProducerService.StepHandlers.Implementations.ListPosts;
+using MessageProducerService.StepHandlers.Implementations.Notification;
 using MessageProducerService.StepHandlers.Implementations.PostCreation;
 using MessageProducerService.StepHandlers.Implementations.PostDeleting;
 using MessageProducerService.StepHandlers.Implementations.ProfileEditing;
@@ -74,9 +75,12 @@ public class Program
 
         builder.Services.AddScoped<StepHandler, ListPostsCommandHandler>();
 
+        builder.Services.AddScoped<StepHandler, SubscriptionHandler>();
+
         // Register the message consumer
         builder.Services.AddHostedService<UserQueueConsumer>();
         builder.Services.AddHostedService<PostQueueConsumer>();
+        builder.Services.AddHostedService<NotificationQueueConsumer>();
 
         builder.Services.AddScoped<HandlerRouter>();
 

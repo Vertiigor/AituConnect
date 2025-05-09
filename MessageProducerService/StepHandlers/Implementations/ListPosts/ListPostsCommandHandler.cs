@@ -42,7 +42,7 @@ namespace MessageProducerService.StepHandlers.Implementations.ListPosts
                 {
                     List<InlineKeyboardButton> buttons = new List<InlineKeyboardButton>();
 
-                    var button = _keyboardMarkupBuilder.InitializeInlineKeyboardButton("✅ Schedule ✅", post.UserId);
+                    var button = _keyboardMarkupBuilder.InitializeInlineKeyboardButton("✅ Schedule ✅", $"UserId:{post.User.Id}");
                     buttons.Add(button);
 
                     var message = $"Title: {post.Title}\n\n" +

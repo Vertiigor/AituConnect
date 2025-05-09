@@ -13,6 +13,7 @@ using MessageListenerService.Services;
 using MessageListenerService.Services.Abstractions;
 using MessageListenerService.Services.Implementations;
 using MessageListenerService.StepHandlers.Abstractions;
+using MessageListenerService.StepHandlers.Implementations.ListPosts;
 using MessageListenerService.StepHandlers.Implementations.PostCreation;
 using MessageListenerService.StepHandlers.Implementations.PostDeleting;
 using MessageListenerService.StepHandlers.Implementations.ProfileEditing;
@@ -66,6 +67,8 @@ public class Program
         builder.Services.AddScoped<StepHandler, SubjectStepHandler>();
 
         builder.Services.AddScoped<StepHandler, ChoosingPostStepHandler>();
+
+        builder.Services.AddScoped<StepHandler, SubscribeStepHandler>();
 
         // Register repositories
         builder.Services.AddScoped<IUserRepository, UserRepository>();
