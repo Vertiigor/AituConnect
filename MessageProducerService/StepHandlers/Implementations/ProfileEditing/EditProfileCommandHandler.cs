@@ -37,7 +37,7 @@ namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
 
             foreach (var option in options)
             {
-                var button = _keyboardMarkup.InitializeInlineKeyboardButton(option, option);
+                var button = _keyboardMarkup.InitializeInlineKeyboardButton(option, $"Option:{option}");
                 buttons.Add(button);
             }
 

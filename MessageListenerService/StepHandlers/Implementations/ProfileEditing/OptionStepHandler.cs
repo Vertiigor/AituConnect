@@ -8,8 +8,10 @@ namespace MessageListenerService.StepHandlers.Implementations.ProfileEditing
 {
     public class OptionStepHandler : StepHandler
     {
-        public OptionStepHandler(IMessageProducer producer, UserSessionService userSessionService) : base(producer, userSessionService)
+        private readonly InputValidator _inputValidator;
+        public OptionStepHandler(IMessageProducer producer, UserSessionService userSessionService, InputValidator inputValidator) : base(producer, userSessionService)
         {
+            _inputValidator = inputValidator;
         }
 
         public override string StepName => "ChoosingOption";
@@ -18,30 +20,33 @@ namespace MessageListenerService.StepHandlers.Implementations.ProfileEditing
 
         public override async Task HandleAsync(UserSession session, string userInput, string messageId)
         {
-            Console.WriteLine($"Handling university step for user {session.ChatId} with input: {userInput}");
-
-            var payload = new RegistrationContract
+            if (_inputValidator.TryValidate(userInput, "Option", out string option))
             {
-                ChatId = session.ChatId,
-                UserName = session.Username,
-                University = string.Empty,
-                Major = string.Empty,
-                MessageId = messageId,
-            };
+                Console.WriteLine($"Handling university step for user {session.ChatId} with input: {userInput}");
 
-            // Send the message to the producer
-            await _producer.PublishMessageAsync(
-                eventType: $"Editing{userInput}",
-                payload: payload,
-                exchange: "aituBot.exchange",
-                routingKey: "user.editProfile"
-            );
+                var payload = new RegistrationContract
+                {
+                    ChatId = session.ChatId,
+                    UserName = session.Username,
+                    University = string.Empty,
+                    Major = string.Empty,
+                    MessageId = messageId,
+                };
 
-            Console.WriteLine($"User {session.ChatId} selected university: {userInput}");
+                // Send the message to the producer
+                await _producer.PublishMessageAsync(
+                    eventType: $"Editing{option}",
+                    payload: payload,
+                    exchange: "aituBot.exchange",
+                    routingKey: "user.editProfile"
+                );
 
-            // Update the session in Redis
-            session.CurrentStep = $"Editing{userInput}"; // Update to the next step
-            await _userSessionService.SetSessionAsync(session);
+                Console.WriteLine($"User {session.ChatId} selected university: {userInput}");
+
+                // Update the session in Redis
+                session.CurrentStep = $"Editing{userInput}"; // Update to the next step
+                await _userSessionService.SetSessionAsync(session);
+            }
         }
     }
 }

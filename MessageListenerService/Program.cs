@@ -37,6 +37,7 @@ public class Program
         builder.AddServiceDefaults();
 
         // Add services to the container.
+        builder.Services.AddScoped<InputValidator>();
 
         // Register the Redis connection
         builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection("Redis"));

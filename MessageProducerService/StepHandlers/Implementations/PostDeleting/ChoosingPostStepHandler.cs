@@ -13,12 +13,16 @@ namespace MessageProducerService.StepHandlers.Implementations.PostDeleting
         private readonly IUserService _userService;
         private readonly BotMessageSender _botMessageSender;
         private readonly IPostService _postService;
+        private readonly KeyboardMarkupBuilder _keyboardMarkupBuilder;
+        private readonly ITelegramBotClient _telegramBotClient;
 
-        public ChoosingPostStepHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService)
+        public ChoosingPostStepHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService, KeyboardMarkupBuilder keyboardMarkupBuilder, ITelegramBotClient telegramBotClient)
         {
             _userService = userService;
             _botMessageSender = botMessageSender;
             _postService = postService;
+            _keyboardMarkupBuilder = keyboardMarkupBuilder;
+            _telegramBotClient = telegramBotClient;
         }
 
         public override async Task HandleAsync(MessageEnvelope envelope)
@@ -28,6 +32,8 @@ namespace MessageProducerService.StepHandlers.Implementations.PostDeleting
             var postId = payload.PostId;
 
             await _postService.DeleteAsync(postId);
+
+            await _keyboardMarkupBuilder.RemoveKeyboardAsync(_telegramBotClient, payload.ChatId, Convert.ToInt32(payload.MessageId));
 
             await _botMessageSender.SendTextMessageAsync(payload.ChatId, "Post deleted successfully!");
         }

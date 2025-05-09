@@ -47,7 +47,7 @@ namespace MessageProducerService.StepHandlers.Implementations.PostDeleting
 
             foreach (var post in posts)
             {
-                var button = _keyboardMarkupBuilder.InitializeInlineKeyboardButton(post.Title, post.Id);
+                var button = _keyboardMarkupBuilder.InitializeInlineKeyboardButton(post.Title, $"PostId:{post.Id}");
                 buttons.Add(button);
             }
 

@@ -41,7 +41,7 @@ namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
 
             foreach (var university in universities)
             {
-                var button = _keyboardMarkup.InitializeInlineKeyboardButton(university, university);
+                var button = _keyboardMarkup.InitializeInlineKeyboardButton(university, $"University:{university}");
                 buttons.Add(button);
             }
 

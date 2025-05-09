@@ -43,13 +43,13 @@ namespace MessageProducerService.StepHandlers.Implementations.PostCreation
             var subjects = await _subjectService.GetAllAsync();
             List<InlineKeyboardButton> buttons = new List<InlineKeyboardButton>();
 
-            var cancelButton = _keyboardMarkup.InitializeInlineKeyboardButton("❌Cancel", "cancel");
+            var cancelButton = _keyboardMarkup.InitializeInlineKeyboardButton("❌Finish❌", "SubjectId:cancel");
             buttons.Add(cancelButton);
 
             // Create inline keyboard buttons for each subject
             foreach (var subject in subjects)
             {
-                var button = _keyboardMarkup.InitializeInlineKeyboardButton(subject.Name, subject.Id);
+                var button = _keyboardMarkup.InitializeInlineKeyboardButton(subject.Name, $"SubjectId:{subject.Id}");
                 buttons.Add(button);
             }
 
