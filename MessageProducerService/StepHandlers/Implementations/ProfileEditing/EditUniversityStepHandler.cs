@@ -16,7 +16,7 @@ namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
         private readonly ITelegramBotClient _botClient;
         private readonly KeyboardMarkupBuilder _keyboardMarkup;
 
-        public EditUniversityStepHandler(IUserService userService, BotMessageSender botMessageSender,ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboard)
+        public EditUniversityStepHandler(IUserService userService, BotMessageSender botMessageSender, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboard)
         {
             _userService = userService;
             _botMessageSender = botMessageSender;

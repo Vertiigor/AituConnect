@@ -32,7 +32,7 @@ namespace MessageProducerService.StepHandlers.Implementations.PostCreation
         public override async Task HandleAsync(MessageEnvelope envelope)
         {
             var payload = envelope.GetPayload<PostCreationContract>();
-            
+
             var chatId = payload.ChatId;
             var subjectId = payload.SubjectId;
 

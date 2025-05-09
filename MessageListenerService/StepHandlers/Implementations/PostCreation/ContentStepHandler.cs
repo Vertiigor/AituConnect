@@ -1,7 +1,6 @@
 ﻿using MessageListenerService.Contracts;
 using MessageListenerService.Models;
 using MessageListenerService.Producers.Abstractions;
-using MessageListenerService.Producers.Implementations;
 using MessageListenerService.Services;
 using MessageListenerService.StepHandlers.Abstractions;
 

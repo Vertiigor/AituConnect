@@ -1,5 +1,4 @@
 ﻿using MessageListenerService.Models;
-using MessageListenerService.Repositories.Abstractions;
 
 namespace MessageListenerService.Repositories.Abstractions
 {

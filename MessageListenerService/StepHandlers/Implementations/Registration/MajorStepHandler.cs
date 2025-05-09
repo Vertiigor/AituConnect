@@ -1,5 +1,4 @@
 ﻿using MessageListenerService.Contracts;
-using MessageListenerService.Data.Connections.Redis;
 using MessageListenerService.Models;
 using MessageListenerService.Producers.Abstractions;
 using MessageListenerService.Services;

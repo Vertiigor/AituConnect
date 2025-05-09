@@ -3,7 +3,6 @@ using MessageProducerService.Data.Connections.RabbitMq;
 using MessageProducerService.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Diagnostics.Tracing;
 using System.Text;
 using System.Text.Json;
 

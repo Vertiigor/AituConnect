@@ -35,7 +35,7 @@ namespace MessageListenerService.StepHandlers.Implementations.PostCreation
                 routingKey: "post.creation"
             );
 
-            if(userInput == "cancel")
+            if (userInput == "cancel")
             {
                 await _userSessionService.ClearSessionAsync(session.ChatId);
                 return;

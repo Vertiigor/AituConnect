@@ -1,7 +1,6 @@
 ﻿using MessageProducerService.Bot;
 using MessageProducerService.Contracts;
 using MessageProducerService.Keyboards;
-using MessageProducerService.Models;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.StepHandlers.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
