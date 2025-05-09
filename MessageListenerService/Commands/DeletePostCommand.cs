@@ -1,9 +1,9 @@
-﻿using MessageListenerService.Producers.Abstractions;
-using MessageListenerService.Services.Abstractions;
-using MessageListenerService.Services;
-using Telegram.Bot.Types;
+﻿using MessageListenerService.Contracts;
 using MessageListenerService.Models;
-using MessageListenerService.Contracts;
+using MessageListenerService.Producers.Abstractions;
+using MessageListenerService.Services;
+using MessageListenerService.Services.Abstractions;
+using Telegram.Bot.Types;
 
 namespace MessageListenerService.Commands
 {
