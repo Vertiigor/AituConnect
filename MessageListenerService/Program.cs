@@ -14,6 +14,7 @@ using MessageListenerService.Services.Abstractions;
 using MessageListenerService.Services.Implementations;
 using MessageListenerService.StepHandlers.Abstractions;
 using MessageListenerService.StepHandlers.Implementations.PostCreation;
+using MessageListenerService.StepHandlers.Implementations.PostDeleting;
 using MessageListenerService.StepHandlers.Implementations.ProfileEditing;
 using MessageListenerService.StepHandlers.Implementations.Registration;
 using Microsoft.EntityFrameworkCore;
@@ -63,13 +64,23 @@ public class Program
         builder.Services.AddScoped<StepHandler, ContentStepHandler>();
         builder.Services.AddScoped<StepHandler, SubjectStepHandler>();
 
+        builder.Services.AddScoped<StepHandler, ChoosingPostStepHandler>();
+
+        // Register repositories
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IPostRepository, PostRepository>();
+        builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+
+        // Register services  
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IPostService, PostService>();
+        builder.Services.AddScoped<ISubjectService, SubjectService>();
 
         // Register the command handler
         builder.Services.AddScoped<ICommand, StartCommand>();
         builder.Services.AddScoped<ICommand, EditProfileCommand>();
         builder.Services.AddScoped<ICommand, CreatePostCommand>();
+        builder.Services.AddScoped<ICommand, DeletePostCommand>();
 
         // Register the services
         builder.Services.AddScoped<UserSessionService>();

@@ -1,8 +1,8 @@
-﻿using MessageProducerService.Models;
-using MessageProducerService.Repositories.Abstractions;
-using MessageProducerService.Services.Abstractions;
+﻿using MessageListenerService.Models;
+using MessageListenerService.Repositories.Abstractions;
+using MessageListenerService.Services.Abstractions;
 
-namespace MessageProducerService.Services.Implementations
+namespace MessageListenerService.Services.Implementations
 {
     public class PostService : Service<Post>, IPostService
     {

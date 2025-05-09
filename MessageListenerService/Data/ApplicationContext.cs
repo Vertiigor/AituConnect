@@ -6,6 +6,9 @@ namespace MessageListenerService.Data
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
         }
@@ -17,6 +20,27 @@ namespace MessageListenerService.Data
             builder.Entity<User>()
                 .Property(u => u.Role)
                 .HasConversion(v => v.ToString(), v => (Roles)Enum.Parse(typeof(Roles), v));
+
+            builder.Entity<Post>()
+                .HasMany(p => p.Subjects)
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                    "PostSubjects",
+                    j => j
+                        .HasOne<Subject>()
+                        .WithMany()
+                        .HasForeignKey("SubjectsId")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    j => j
+                        .HasOne<Post>()
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade));
+
+
+            builder.Entity<Post>()
+                .Property(p => p.Status)
+                .HasConversion(v => v.ToString(), v => (Status)Enum.Parse(typeof(Status), v));
         }
     }
 }

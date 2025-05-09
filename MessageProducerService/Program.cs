@@ -12,6 +12,7 @@ using MessageProducerService.Services.Abstractions;
 using MessageProducerService.Services.Implementations;
 using MessageProducerService.StepHandlers.Abstractions;
 using MessageProducerService.StepHandlers.Implementations.PostCreation;
+using MessageProducerService.StepHandlers.Implementations.PostDeleting;
 using MessageProducerService.StepHandlers.Implementations.ProfileEditing;
 using MessageProducerService.StepHandlers.Implementations.Registration;
 using Microsoft.AspNetCore.Identity;
@@ -67,6 +68,9 @@ public class Program
         builder.Services.AddScoped<StepHandler, ContentStepHandler>();
         builder.Services.AddScoped<StepHandler, SubjectStepHandler>();
 
+        builder.Services.AddScoped<StepHandler, DeletePostCommandHandler>();
+        builder.Services.AddScoped<StepHandler, ChoosingPostStepHandler>();
+
         // Register the message consumer
         builder.Services.AddHostedService<UserQueueConsumer>();
         builder.Services.AddHostedService<PostQueueConsumer>();
@@ -97,7 +101,6 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
 
         app.MapControllers();
 

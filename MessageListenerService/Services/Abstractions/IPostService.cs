@@ -1,6 +1,6 @@
-﻿using MessageProducerService.Models;
+﻿using MessageListenerService.Models;
 
-namespace MessageProducerService.Services.Abstractions
+namespace MessageListenerService.Services.Abstractions
 {
     public interface IPostService : IService<Post>
     {
