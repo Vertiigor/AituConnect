@@ -23,7 +23,17 @@ namespace MessageProducerService.Models
         public List<Subject> Subjects { get; set; }
 
         [Required]
+        public Status Status { get; set; }
+
+        [Required]
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+    }
+
+    public enum Status
+    {
+        Draft,
+        Published,
+        Archived
     }
 }

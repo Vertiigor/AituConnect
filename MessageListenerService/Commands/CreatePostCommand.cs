@@ -30,6 +30,7 @@ namespace MessageListenerService.Commands
             var username = update.Message.Chat.Username ?? "Unknown";
 
             var exist = await _userService.DoesUserExist(chatId);
+            var user = await _userService.GetByChatIdAsync(chatId);
 
             if (exist)
             {
@@ -43,26 +44,29 @@ namespace MessageListenerService.Commands
 
                 await _userSessionService.SetSessionAsync(session);
 
-                var payload = new RegistrationContract
+                var payload = new PostCreationContract
                 {
                     ChatId = chatId,
-                    University = string.Empty,
-                    Major = string.Empty
+                    University = user.University,
+                    Title = string.Empty,
+                    Content = string.Empty,
+                    SubjectId = string.Empty,
+                    MessageId = update.Message.MessageId.ToString()
                 };
 
                 // Send the message to the producer
                 await _producer.PublishMessageAsync(
-                    eventType: "StartCommand",
+                    eventType: "CreatePostCommand",
                     payload: payload,
                     exchange: "aituBot.exchange",
-                    routingKey: "user.registration"
+                    routingKey: "post.creation"
                     );
 
-                Console.WriteLine($"User {username} started the registration process.");
+                Console.WriteLine($"User {username} started creating a post.");
             }
             else
             {
-                Console.WriteLine("You are already registered!");
+                Console.WriteLine("You are not registered!");
             }
         }
     }

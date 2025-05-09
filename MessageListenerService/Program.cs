@@ -13,6 +13,7 @@ using MessageListenerService.Services;
 using MessageListenerService.Services.Abstractions;
 using MessageListenerService.Services.Implementations;
 using MessageListenerService.StepHandlers.Abstractions;
+using MessageListenerService.StepHandlers.Implementations.PostCreation;
 using MessageListenerService.StepHandlers.Implementations.ProfileEditing;
 using MessageListenerService.StepHandlers.Implementations.Registration;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,10 @@ public class Program
         builder.Services.AddScoped<StepHandler, OptionStepHandler>();
         builder.Services.AddScoped<StepHandler, EditMajorStepHandler>();
         builder.Services.AddScoped<StepHandler, EditUniversityStepHandler>();
+
+        builder.Services.AddScoped<StepHandler, TitleStepHandler>();
+        builder.Services.AddScoped<StepHandler, ContentStepHandler>();
+        builder.Services.AddScoped<StepHandler, SubjectStepHandler>();
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IUserService, UserService>();

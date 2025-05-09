@@ -11,6 +11,7 @@ using MessageProducerService.Services;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.Services.Implementations;
 using MessageProducerService.StepHandlers.Abstractions;
+using MessageProducerService.StepHandlers.Implementations.PostCreation;
 using MessageProducerService.StepHandlers.Implementations.ProfileEditing;
 using MessageProducerService.StepHandlers.Implementations.Registration;
 using Microsoft.AspNetCore.Identity;
@@ -61,8 +62,14 @@ public class Program
         builder.Services.AddScoped<StepHandler, EditUniversityStepHandler>();
         builder.Services.AddScoped<StepHandler, EditInputStepHandler>();
 
+        builder.Services.AddScoped<StepHandler, CreatePostCommandHandler>();
+        builder.Services.AddScoped<StepHandler, TitleStepHandler>();
+        builder.Services.AddScoped<StepHandler, ContentStepHandler>();
+        builder.Services.AddScoped<StepHandler, SubjectStepHandler>();
+
         // Register the message consumer
         builder.Services.AddHostedService<UserQueueConsumer>();
+        builder.Services.AddHostedService<PostQueueConsumer>();
 
         builder.Services.AddScoped<HandlerRouter>();
 

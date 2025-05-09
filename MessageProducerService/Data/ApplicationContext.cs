@@ -25,6 +25,10 @@ namespace MessageProducerService.Data
                .HasMany(p => p.Subjects)
                .WithMany()
                .UsingEntity(j => j.ToTable("PostSubjects"));
+
+            builder.Entity<Post>()
+                .Property(p => p.Status)
+                .HasConversion(v => v.ToString(), v => (Status)Enum.Parse(typeof(Status), v));
         }
     }
 }
