@@ -6,5 +6,7 @@ namespace MessageProducerService.Services.Abstractions
     {
         public Task<Post> GetLastDraftedPost(string userId);
         public Task<IEnumerable<Post>> GetAllPostsByUserId(string userId);
+        public Task<IEnumerable<Post>> GetAllByUniversity(string university);
+
     }
 }

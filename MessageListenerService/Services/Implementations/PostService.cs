@@ -24,7 +24,7 @@ namespace MessageListenerService.Services.Implementations
 
             if (userPosts.Count == 0)
             {
-                throw new Exception("No posts found for the user.");
+                Console.WriteLine("No posts found for the user.");
             }
 
             return userPosts;

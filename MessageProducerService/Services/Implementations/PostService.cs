@@ -13,6 +13,11 @@ namespace MessageProducerService.Services.Implementations
             _postRepository = repository;
         }
 
+        public async Task<IEnumerable<Post>> GetAllByUniversity(string university)
+        {
+            return await _postRepository.GetAllByUniversity(university);
+        }
+
         public async Task<IEnumerable<Post>> GetAllPostsByUserId(string userId)
         {
             var posts = await _postRepository.GetAllAsync();

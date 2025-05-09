@@ -11,6 +11,9 @@ namespace MessageProducerService.Models
         public string UserId { get; set; }
 
         [Required]
+        public User User { get; set; }  // Navigation property
+
+        [Required]
         public string Title { get; set; }
 
         [Required]

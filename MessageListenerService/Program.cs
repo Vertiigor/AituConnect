@@ -81,6 +81,7 @@ public class Program
         builder.Services.AddScoped<ICommand, EditProfileCommand>();
         builder.Services.AddScoped<ICommand, CreatePostCommand>();
         builder.Services.AddScoped<ICommand, DeletePostCommand>();
+        builder.Services.AddScoped<ICommand, ListPostsCommand>();
 
         // Register the services
         builder.Services.AddScoped<UserSessionService>();

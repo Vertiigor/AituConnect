@@ -11,6 +11,7 @@ using MessageProducerService.Services;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.Services.Implementations;
 using MessageProducerService.StepHandlers.Abstractions;
+using MessageProducerService.StepHandlers.Implementations.ListPosts;
 using MessageProducerService.StepHandlers.Implementations.PostCreation;
 using MessageProducerService.StepHandlers.Implementations.PostDeleting;
 using MessageProducerService.StepHandlers.Implementations.ProfileEditing;
@@ -70,6 +71,8 @@ public class Program
 
         builder.Services.AddScoped<StepHandler, DeletePostCommandHandler>();
         builder.Services.AddScoped<StepHandler, ChoosingPostStepHandler>();
+
+        builder.Services.AddScoped<StepHandler, ListPostsCommandHandler>();
 
         // Register the message consumer
         builder.Services.AddHostedService<UserQueueConsumer>();

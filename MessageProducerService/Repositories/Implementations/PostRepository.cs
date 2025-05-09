@@ -17,5 +17,15 @@ namespace MessageProducerService.Repositories.Implementations
 
             return posts;
         }
+
+        public async Task<IEnumerable<Post>> GetAllByUniversity(string university)
+        {
+            var posts = await _context.Posts
+                .Include(p => p.User)
+                .Where(p => p.University == university)
+                .ToListAsync();
+
+            return posts;
+        }
     }
 }

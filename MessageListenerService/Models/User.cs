@@ -15,6 +15,9 @@ namespace MessageListenerService.Models
         public string Major { get; set; }
 
         [Required]
+        public List<Post> Posts { get; set; } = new List<Post>();
+
+        [Required]
         public DateTime JoinedDate { get; set; }
 
         [Required]

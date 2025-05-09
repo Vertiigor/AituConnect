@@ -37,6 +37,11 @@ namespace MessageListenerService.Data
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade));
 
+            builder.Entity<Post>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.Posts)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Post>()
                 .Property(p => p.Status)
