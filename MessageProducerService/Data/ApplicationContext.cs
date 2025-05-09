@@ -22,9 +22,21 @@ namespace MessageProducerService.Data
                 .HasConversion(v => v.ToString(), v => (Roles)Enum.Parse(typeof(Roles), v));
 
             builder.Entity<Post>()
-               .HasMany(p => p.Subjects)
-               .WithMany()
-               .UsingEntity(j => j.ToTable("PostSubjects"));
+                .HasMany(p => p.Subjects)
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                    "PostSubjects",
+                    j => j
+                        .HasOne<Subject>()
+                        .WithMany()
+                        .HasForeignKey("SubjectsId")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    j => j
+                        .HasOne<Post>()
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade));
+
 
             builder.Entity<Post>()
                 .Property(p => p.Status)
