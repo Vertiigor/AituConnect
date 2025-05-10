@@ -38,7 +38,8 @@ namespace MessageProducerService.StepHandlers.Implementations.ListPosts
 
             foreach (var post in posts)
             {
-                if (post.UserId != user.Id)
+                Console.WriteLine($"Post: {post.University} {post.User.Id} {post.Title}\n{user.Id}");
+                if (post.User.Id != user.Id)
                 {
                     List<InlineKeyboardButton> buttons = new List<InlineKeyboardButton>();
 

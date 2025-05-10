@@ -24,7 +24,7 @@ namespace MessageProducerService.StepHandlers.Implementations.Notification
         {
             var payload = envelope.GetPayload<SubscriptionContract>();
 
-            var user = await _userService.GetByChatIdAsync(payload.ChatId);
+            var user = await _userService.GetByIdAsync(payload.UserId);
 
             var toChatId = user.ChatId;
 

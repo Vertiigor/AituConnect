@@ -22,6 +22,7 @@ namespace MessageProducerService.Repositories.Implementations
         {
             var posts = await _context.Posts
                 .Include(p => p.User)
+                .Include(p => p.Subjects)
                 .Where(p => p.University == university)
                 .ToListAsync();
 

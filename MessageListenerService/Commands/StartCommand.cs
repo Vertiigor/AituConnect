@@ -50,6 +50,7 @@ namespace MessageListenerService.Commands
                 {
                     ChatId = chatId,
                     University = string.Empty,
+                    UserName = username,
                     Major = string.Empty
                 };
 
