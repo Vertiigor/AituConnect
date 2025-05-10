@@ -5,7 +5,7 @@
 ---
 
 # Wiki
-https://deepwiki.com/Vertiigor/NotificationSystem
+[Click](https://deepwiki.com/Vertiigor/AituConnect)
 
 ---
 ## 🚀 Features
