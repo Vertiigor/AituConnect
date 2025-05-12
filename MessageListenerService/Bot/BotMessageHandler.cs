@@ -19,7 +19,7 @@ namespace AituConnectAPI.Bot
 
         public async Task HandleUpdateAsync(Update update)
         {
-            if (update.Message.Text == null || update.Message == null) return;
+            if (update.Message == null || update.Message.Text == null) return;
 
             //var chatId = update.Message.Chat.Id.ToString();
             //var context = await _pipelineContextService.GetByChatIdAsync(chatId);
@@ -49,7 +49,7 @@ namespace AituConnectAPI.Bot
             var message = update.Message?.Text;
             var messageId = Convert.ToString(update.Message?.Id);
 
-            if (update.Message.Text == null || update.Message == null || update.Message.Text.StartsWith("/")) return;
+            if (update.Message == null  || update.Message.Text == null || update.Message.Text.StartsWith("/")) return;
 
             var session = await _userSessionService.GetSessionAsync(chatId);
 
