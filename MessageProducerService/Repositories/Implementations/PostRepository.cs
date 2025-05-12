@@ -8,25 +8,33 @@ namespace MessageProducerService.Repositories.Implementations
     public class PostRepository : Repository<Post>, IPostRepository
     {
         public PostRepository(ApplicationContext context) : base(context) { }
-
+        
         public override async Task<IEnumerable<Post>> GetAllAsync()
         {
-            var posts = await _context.Posts
-                .Include(p => p.Subjects)
+            return await GetAllWithIncludes()
                 .ToListAsync();
-
-            return posts;
         }
 
         public async Task<IEnumerable<Post>> GetAllByUniversity(string university)
         {
-            var posts = await _context.Posts
-                .Include(p => p.User)
-                .Include(p => p.Subjects)
+            return await GetAllWithIncludes()
                 .Where(p => p.University == university)
                 .ToListAsync();
+        }
 
-            return posts;
+        public async Task<IEnumerable<Post>> GetAllByUserId(string userId)
+        {
+            return await GetAllWithIncludes()
+                .Where(p => p.UserId == userId)
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+        }
+
+        public IQueryable<Post> GetAllWithIncludes()
+        {
+            return GetAllAsQueryable()
+                .Include(p => p.User)
+                .Include(p => p.Subjects);
         }
     }
 }

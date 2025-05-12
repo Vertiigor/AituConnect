@@ -1,5 +1,6 @@
 ﻿using MessageProducerService.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace MessageProducerService.Repositories.Abstractions
 {
@@ -17,6 +18,11 @@ namespace MessageProducerService.Repositories.Abstractions
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
+        }
+
+        public virtual IQueryable<T> GetAllAsQueryable()
+        {
+            return _dbSet.AsQueryable();
         }
 
         public virtual async Task<T> GetByIdAsync(string id)

@@ -18,19 +18,9 @@ namespace MessageProducerService.Services.Implementations
             return await _postRepository.GetAllByUniversity(university);
         }
 
-        public async Task<IEnumerable<Post>> GetAllPostsByUserId(string userId)
+        public async Task<IEnumerable<Post>> GetAllByUserId(string userId)
         {
-            var posts = await _postRepository.GetAllAsync();
-
-            var userPosts = posts
-                .Where(p => p.UserId == userId)
-                .OrderByDescending(p => p.CreatedAt)
-                .ToList();
-
-            if (userPosts.Count == 0)
-            {
-                throw new Exception("No posts found for the user.");
-            }
+            var userPosts = await _postRepository.GetAllByUserId(userId);
 
             return userPosts;
         }
@@ -38,15 +28,11 @@ namespace MessageProducerService.Services.Implementations
         public async Task<Post> GetLastDraftedPost(string userId)
         {
             var posts = await _postRepository.GetAllAsync();
+
             var lastDraftedPost = posts
                 .Where(p => p.UserId == userId && p.Status == Status.Draft)
                 .OrderByDescending(p => p.CreatedAt)
                 .FirstOrDefault();
-
-            if (lastDraftedPost == null)
-            {
-                throw new Exception("No drafted post found for the user.");
-            }
 
             return lastDraftedPost;
         }

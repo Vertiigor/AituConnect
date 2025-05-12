@@ -72,13 +72,9 @@ public class Program
 
         // Register repositories
         builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IPostRepository, PostRepository>();
-        builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 
         // Register services  
         builder.Services.AddScoped<IUserService, UserService>();
-        builder.Services.AddScoped<IPostService, PostService>();
-        builder.Services.AddScoped<ISubjectService, SubjectService>();
 
         // Register the command handler
         builder.Services.AddScoped<ICommand, StartCommand>();

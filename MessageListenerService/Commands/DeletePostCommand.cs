@@ -12,14 +12,12 @@ namespace MessageListenerService.Commands
         private readonly UserSessionService _userSessionService;
         private readonly IMessageProducer _producer;
         private readonly IUserService _userService;
-        private readonly IPostService _postService;
 
-        public DeletePostCommand(IMessageProducer producer, UserSessionService userSessionService, IUserService userService, IPostService postService)
+        public DeletePostCommand(IMessageProducer producer, UserSessionService userSessionService, IUserService userService)
         {
             _producer = producer;
             _userSessionService = userSessionService;
             _userService = userService;
-            _postService = postService;
         }
 
         public bool CanHandle(string command) => command.Equals("/delete_post", StringComparison.OrdinalIgnoreCase);
@@ -33,9 +31,8 @@ namespace MessageListenerService.Commands
 
             var exist = await _userService.DoesUserExist(chatId);
             var user = await _userService.GetByChatIdAsync(chatId);
-            var posts = await _postService.GetAllPostsByUserId(user.Id);
 
-            if (exist && posts != null)
+            if (exist)
             {
                 var session = new UserSession
                 {

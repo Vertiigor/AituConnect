@@ -1,6 +1,7 @@
 ﻿using MessageProducerService.Bot;
 using MessageProducerService.Contracts;
 using MessageProducerService.Keyboards;
+using MessageProducerService.Models;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.StepHandlers.Abstractions;
 using Telegram.Bot;
@@ -33,13 +34,11 @@ namespace MessageProducerService.StepHandlers.Implementations.PostDeleting
 
             var chatId = payload.ChatId;
             var user = await _userService.GetByChatIdAsync(chatId);
-            var posts = await _postService.GetAllPostsByUserId(user.Id);
-
-            posts.ToList();
+            var posts = await _postService.GetAllByUserId(user.Id);
 
             if (posts.Count() == 0)
             {
-                await _botMessageSender.SendTextMessageAsync(chatId, "You have no posts to delete.");
+                await _botMessageSender.SendTextMessageAsync(chatId, "You have no posts to delete");
                 return;
             }
 

@@ -29,6 +29,16 @@ namespace MessageProducerService.StepHandlers.Implementations.Registration
 
             var chatId = payload.ChatId;
 
+            // Check if the user already exists
+            var existingUser = await _userService.GetByChatIdAsync(chatId);
+
+            if (existingUser != null)
+            {
+                // User already exists, send a message and return
+                await _botMessageSender.SendTextMessageAsync(chatId, "You are already registered.");
+                return;
+            }
+
             // Create a new user
             var newUser = new User
             {

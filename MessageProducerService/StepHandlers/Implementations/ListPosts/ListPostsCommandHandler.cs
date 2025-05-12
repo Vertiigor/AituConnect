@@ -36,6 +36,12 @@ namespace MessageProducerService.StepHandlers.Implementations.ListPosts
 
             var posts = await _postService.GetAllByUniversity(university);
 
+            if (posts.Count() == 0)
+            {
+                await _botMessageSender.SendTextMessageAsync(chatId, "No posts available for your university.");
+                return;
+            }
+
             foreach (var post in posts)
             {
                 Console.WriteLine($"Post: {post.University} {post.User.Id} {post.Title}\n{user.Id}");
