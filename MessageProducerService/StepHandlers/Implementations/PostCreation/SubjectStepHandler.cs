@@ -11,20 +11,13 @@ namespace MessageProducerService.StepHandlers.Implementations.PostCreation
     public class SubjectStepHandler : StepHandler
     {
         private readonly IPostService _postService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly IUserService _userService;
         private readonly ISubjectService _subjectService;
-        private readonly KeyboardMarkupBuilder _keyboardMarkupBuilder;
-        private readonly ITelegramBotClient _botClient;
 
-        public SubjectStepHandler(IPostService postService, BotMessageSender botMessageSender, IUserService userService, ISubjectService subjectService, KeyboardMarkupBuilder keyboardMarkupBuilder, ITelegramBotClient telegramBotClient)
+        public SubjectStepHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboardMarkupBuilder, ISubjectService subjectService)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
             _postService = postService;
-            _botMessageSender = botMessageSender;
-            _userService = userService;
             _subjectService = subjectService;
-            _keyboardMarkupBuilder = keyboardMarkupBuilder;
-            _botClient = telegramBotClient;
         }
 
         public override string StepName => "ChoosingSubject";
@@ -44,7 +37,7 @@ namespace MessageProducerService.StepHandlers.Implementations.PostCreation
                 post.Status = Status.Published;
                 await _postService.UpdateAsync(post);
 
-                await _keyboardMarkupBuilder.RemoveKeyboardAsync(_botClient, chatId, Convert.ToInt32(payload.MessageId));
+                await _keyboardMarkupBuilder.RemoveKeyboardAsync(_telegramBotClient, chatId, Convert.ToInt32(payload.MessageId));
 
                 await _botMessageSender.SendTextMessageAsync(chatId, "Your post has been created!");
                 return;

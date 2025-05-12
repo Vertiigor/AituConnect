@@ -1,28 +1,29 @@
 ﻿using MessageProducerService.Bot;
 using MessageProducerService.Contracts;
+using MessageProducerService.Keyboards;
 using MessageProducerService.Models;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.StepHandlers.Abstractions;
+using Telegram.Bot;
 
 namespace MessageProducerService.StepHandlers.Implementations.PostCreation
 {
     public class CreatePostCommandHandler : StepHandler
     {
         private readonly IPostService _postService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly IUserService _userService;
 
-        public CreatePostCommandHandler(IPostService postService, BotMessageSender botMessageSender, IUserService userService)
+        public CreatePostCommandHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboardMarkupBuilder)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
             _postService = postService;
-            _botMessageSender = botMessageSender;
-            _userService = userService;
         }
 
         public override string StepName => "CreatePostCommand";
 
         public override async Task HandleAsync(MessageEnvelope envelope)
         {
+            await base.HandleAsync(envelope);
+
             var payload = envelope.GetPayload<PostCreationContract>();
 
             var chatId = payload.ChatId;

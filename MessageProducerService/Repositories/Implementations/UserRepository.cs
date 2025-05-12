@@ -11,7 +11,7 @@ namespace MessageProducerService.Repositories.Implementations
 
         public async Task<User> GetByChatIdAsync(string chatId)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.ChatId == chatId);
+            return await GetAllAsQueryable().FirstOrDefaultAsync(u => u.ChatId == chatId);
         }
     }
 }

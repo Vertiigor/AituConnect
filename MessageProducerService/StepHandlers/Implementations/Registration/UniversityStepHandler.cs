@@ -10,17 +10,10 @@ namespace MessageProducerService.StepHandlers.Implementations.Registration
     public class UniversityStepHandler : StepHandler
     {
         public override string StepName => "ChoosingUniversity";
-        private readonly IUserService _userService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly KeyboardMarkupBuilder _keyboardMarkupBuilder;
-        private readonly ITelegramBotClient _telegramBotClient;
 
-        public UniversityStepHandler(IUserService userService, BotMessageSender botMessageSender, KeyboardMarkupBuilder keyboardMarkupBuilder, ITelegramBotClient telegramBotClient)
+        public UniversityStepHandler(IUserService userService, BotMessageSender botMessageSender, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboardMarkupBuilder)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
-            _userService = userService;
-            _botMessageSender = botMessageSender;
-            _keyboardMarkupBuilder = keyboardMarkupBuilder;
-            _telegramBotClient = telegramBotClient;
         }
 
         public override async Task HandleAsync(MessageEnvelope envelope)

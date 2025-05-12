@@ -10,19 +10,13 @@ namespace MessageProducerService.StepHandlers.Implementations.PostDeleting
     public class ChoosingPostStepHandler : StepHandler
     {
         public override string StepName => "ChoosingPost";
-        private readonly IUserService _userService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly IPostService _postService;
-        private readonly KeyboardMarkupBuilder _keyboardMarkupBuilder;
-        private readonly ITelegramBotClient _telegramBotClient;
 
-        public ChoosingPostStepHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService, KeyboardMarkupBuilder keyboardMarkupBuilder, ITelegramBotClient telegramBotClient)
+        private readonly IPostService _postService;
+
+        public ChoosingPostStepHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboardMarkupBuilder)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
-            _userService = userService;
-            _botMessageSender = botMessageSender;
             _postService = postService;
-            _keyboardMarkupBuilder = keyboardMarkupBuilder;
-            _telegramBotClient = telegramBotClient;
         }
 
         public override async Task HandleAsync(MessageEnvelope envelope)

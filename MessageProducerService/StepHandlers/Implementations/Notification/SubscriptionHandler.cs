@@ -3,21 +3,17 @@ using MessageProducerService.Contracts;
 using MessageProducerService.Keyboards;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.StepHandlers.Abstractions;
+using Telegram.Bot;
 
 namespace MessageProducerService.StepHandlers.Implementations.Notification
 {
     public class SubscriptionHandler : StepHandler
     {
         public override string StepName => "Subscribed";
-        private readonly IUserService _userService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly KeyboardMarkupBuilder _keyboardMarkup;
 
-        public SubscriptionHandler(IUserService userService, BotMessageSender botMessageSender, KeyboardMarkupBuilder keyboard)
+        public SubscriptionHandler(IUserService userService, BotMessageSender botMessageSender, KeyboardMarkupBuilder keyboardMarkupBuilder, ITelegramBotClient telegramBotClient)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
-            _userService = userService;
-            _botMessageSender = botMessageSender;
-            _keyboardMarkup = keyboard;
         }
 
         public override async Task HandleAsync(MessageEnvelope envelope)

@@ -10,17 +10,10 @@ namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
     public class EditInputStepHandler : StepHandler
     {
         public override string StepName => "EditingInput";
-        private readonly IUserService _userService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly ITelegramBotClient _botClient;
-        private readonly KeyboardMarkupBuilder _keyboardMarkup;
 
-        public EditInputStepHandler(IUserService userService, BotMessageSender botMessageSender, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboardMarkupBuilder)
+        public EditInputStepHandler(IUserService userService, BotMessageSender botMessageSender, KeyboardMarkupBuilder keyboardMarkupBuilder, ITelegramBotClient botClient)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, botClient)
         {
-            _userService = userService;
-            _botMessageSender = botMessageSender;
-            _botClient = telegramBotClient;
-            _keyboardMarkup = keyboardMarkupBuilder;
         }
 
         public override async Task HandleAsync(MessageEnvelope envelope)
@@ -38,7 +31,7 @@ namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
             // Send a message to the user
             await _botMessageSender.SendTextMessageAsync(chatId, "Your profile has been updated successfully!");
 
-            await _keyboardMarkup.RemoveKeyboardAsync(_botClient, payload.ChatId, Convert.ToInt32(payload.MessageId));
+            await _keyboardMarkupBuilder.RemoveKeyboardAsync(_telegramBotClient, payload.ChatId, Convert.ToInt32(payload.MessageId));
         }
     }
 }

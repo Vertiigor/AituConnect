@@ -11,17 +11,10 @@ namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
     public class EditUniversityStepHandler : StepHandler
     {
         public override string StepName => "EditingUniversity";
-        private readonly IUserService _userService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly ITelegramBotClient _botClient;
-        private readonly KeyboardMarkupBuilder _keyboardMarkup;
 
-        public EditUniversityStepHandler(IUserService userService, BotMessageSender botMessageSender, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboard)
+        public EditUniversityStepHandler(IUserService userService, BotMessageSender botMessageSender, ITelegramBotClient botClient, KeyboardMarkupBuilder keyboardMarkup)
+            : base(userService, botMessageSender, keyboardMarkup, botClient)
         {
-            _userService = userService;
-            _botMessageSender = botMessageSender;
-            _botClient = telegramBotClient;
-            _keyboardMarkup = keyboard;
         }
 
         public override async Task HandleAsync(MessageEnvelope envelope)
@@ -41,13 +34,13 @@ namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
 
             foreach (var university in universities)
             {
-                var button = _keyboardMarkup.InitializeInlineKeyboardButton(university, $"University:{university}");
+                var button = _keyboardMarkupBuilder.InitializeInlineKeyboardButton(university, $"University:{university}");
                 buttons.Add(button);
             }
 
-            var keyboard = _keyboardMarkup.InitializeInlineKeyboardMarkup(buttons);
+            var keyboard = _keyboardMarkupBuilder.InitializeInlineKeyboardMarkup(buttons);
 
-            await _keyboardMarkup.RemoveKeyboardAsync(_botClient, payload.ChatId, Convert.ToInt32(payload.MessageId));
+            await _keyboardMarkupBuilder.RemoveKeyboardAsync(_telegramBotClient, payload.ChatId, Convert.ToInt32(payload.MessageId));
             // Ask user for the title
             await _botMessageSender.SendTextMessageAsync(chatId, $"🎓Enter the name of university you're styding in:\nCurrent: {user.University}", replyMarkup: keyboard);
 

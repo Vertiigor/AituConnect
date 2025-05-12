@@ -1,21 +1,20 @@
 ﻿using MessageProducerService.Bot;
 using MessageProducerService.Contracts;
+using MessageProducerService.Keyboards;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.StepHandlers.Abstractions;
+using Telegram.Bot;
 
 namespace MessageProducerService.StepHandlers.Implementations.PostCreation
 {
     public class TitleStepHandler : StepHandler
     {
         private readonly IPostService _postService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly IUserService _userService;
 
-        public TitleStepHandler(IPostService postService, BotMessageSender botMessageSender, IUserService userService)
+        public TitleStepHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService, KeyboardMarkupBuilder keyboardMarkupBuilder, ITelegramBotClient telegramBotClient)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
             _postService = postService;
-            _botMessageSender = botMessageSender;
-            _userService = userService;
         }
 
         public override string StepName => "TypingTitle";

@@ -1,6 +1,5 @@
 ﻿using MessageProducerService.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace MessageProducerService.Repositories.Abstractions
 {

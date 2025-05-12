@@ -49,7 +49,7 @@ namespace AituConnectAPI.Bot
             var message = update.Message?.Text;
             var messageId = Convert.ToString(update.Message?.Id);
 
-            if (update.Message == null  || update.Message.Text == null || update.Message.Text.StartsWith("/")) return;
+            if (update.Message == null || update.Message.Text == null || update.Message.Text.StartsWith("/")) return;
 
             var session = await _userSessionService.GetSessionAsync(chatId);
 

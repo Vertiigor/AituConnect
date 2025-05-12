@@ -11,23 +11,19 @@ namespace MessageProducerService.StepHandlers.Implementations.ListPosts
     public class ListPostsCommandHandler : StepHandler
     {
         public override string StepName => "ListPostsCommand";
-        private readonly IUserService _userService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly KeyboardMarkupBuilder _keyboardMarkupBuilder;
-        private readonly ITelegramBotClient _telegramBotClient;
+
         private readonly IPostService _postService;
 
-        public ListPostsCommandHandler(IUserService userService, BotMessageSender botMessageSender, KeyboardMarkupBuilder keyboardMarkupBuilder, ITelegramBotClient telegramBotClient, IPostService postService)
+        public ListPostsCommandHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboardMarkupBuilder)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
-            _userService = userService;
-            _botMessageSender = botMessageSender;
-            _keyboardMarkupBuilder = keyboardMarkupBuilder;
-            _telegramBotClient = telegramBotClient;
             _postService = postService;
         }
 
         public override async Task HandleAsync(MessageEnvelope envelope)
         {
+            await base.HandleAsync(envelope);
+
             var payload = envelope.GetPayload<ListPostsContract>();
 
             var chatId = payload.ChatId;

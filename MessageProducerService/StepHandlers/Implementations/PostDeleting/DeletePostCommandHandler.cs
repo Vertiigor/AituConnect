@@ -1,7 +1,6 @@
 ﻿using MessageProducerService.Bot;
 using MessageProducerService.Contracts;
 using MessageProducerService.Keyboards;
-using MessageProducerService.Models;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.StepHandlers.Abstractions;
 using Telegram.Bot;
@@ -11,25 +10,20 @@ namespace MessageProducerService.StepHandlers.Implementations.PostDeleting
 {
     public class DeletePostCommandHandler : StepHandler
     {
-        private readonly IUserService _userService;
-        private readonly BotMessageSender _botMessageSender;
         private readonly IPostService _postService;
-        private readonly ITelegramBotClient _botClient;
-        private readonly KeyboardMarkupBuilder _keyboardMarkupBuilder;
 
         public DeletePostCommandHandler(IUserService userService, BotMessageSender botMessageSender, IPostService postService, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboardMarkupBuilder)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
-            _userService = userService;
-            _botMessageSender = botMessageSender;
             _postService = postService;
-            _botClient = telegramBotClient;
-            _keyboardMarkupBuilder = keyboardMarkupBuilder;
         }
 
         public override string StepName => "DeletePostCommand";
 
         public override async Task HandleAsync(MessageEnvelope envelope)
         {
+            await base.HandleAsync(envelope);
+
             var payload = envelope.GetPayload<PostDeletingContract>();
 
             var chatId = payload.ChatId;

@@ -3,27 +3,24 @@ using MessageProducerService.Contracts;
 using MessageProducerService.Keyboards;
 using MessageProducerService.Services.Abstractions;
 using MessageProducerService.StepHandlers.Abstractions;
+using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
 {
     public class EditProfileCommandHandler : StepHandler
     {
-        private readonly IUserService _userService;
-        private readonly BotMessageSender _botMessageSender;
-        private readonly KeyboardMarkupBuilder _keyboardMarkup;
-
-        public EditProfileCommandHandler(IUserService userService, BotMessageSender botMessageSender, KeyboardMarkupBuilder keyboardMarkup)
+        public EditProfileCommandHandler(IUserService userService, BotMessageSender botMessageSender, ITelegramBotClient telegramBotClient, KeyboardMarkupBuilder keyboardMarkupBuilder)
+            : base(userService, botMessageSender, keyboardMarkupBuilder, telegramBotClient)
         {
-            _userService = userService;
-            _botMessageSender = botMessageSender;
-            _keyboardMarkup = keyboardMarkup;
         }
 
         public override string StepName => "EditProfileCommand";
 
         public override async Task HandleAsync(MessageEnvelope envelope)
         {
+            await base.HandleAsync(envelope);
+
             var payload = envelope.GetPayload<RegistrationContract>();
 
             Console.WriteLine($"Received message: {envelope.EventType}");
@@ -37,11 +34,11 @@ namespace MessageProducerService.StepHandlers.Implementations.ProfileEditing
 
             foreach (var option in options)
             {
-                var button = _keyboardMarkup.InitializeInlineKeyboardButton(option, $"Option:{option}");
+                var button = _keyboardMarkupBuilder.InitializeInlineKeyboardButton(option, $"Option:{option}");
                 buttons.Add(button);
             }
 
-            var keyboard = _keyboardMarkup.InitializeInlineKeyboardMarkup(buttons);
+            var keyboard = _keyboardMarkupBuilder.InitializeInlineKeyboardMarkup(buttons);
 
             // Ask user for the title
             await _botMessageSender.SendTextMessageAsync(chatId, "Please choose an option to edit your profile:", replyMarkup: keyboard);
